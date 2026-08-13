@@ -7,7 +7,6 @@
 
 ## ✅ ЖИВЫЕ ОРИГИНАЛЫ
 
-### 1. Agora Idea (agora-idea.com) — «Agora», фейковая биржа
 | Факт | Данные |
 |---|---|
 | Статус | **200**, nginx |
@@ -18,7 +17,6 @@
 | Заявляет | Bitcoin, Ethereum, Ripple, blockchain, financial technology |
 | Схема | Депозит → «налоги/верификация» перед выводом → деньги вязнут |
 
-### 2. ROQCOIN (roqcoin.com) — полноценная скам-биржа
 | Факт | Данные |
 |---|---|
 | Статус | **200**, Cloudflare |
@@ -64,23 +62,18 @@
 ```
 
 ## 📋 Дальнейшие шаги (по приказу)
-- [ ] Глубокая разведка agora-idea.com (поддомены, JS, порты 156.234.7.53)
-- [ ] Глубокая разведка roqcoin.com (поддомены, API, JS-бандлы)
 - [ ] Поиск ещё живых: списки Watchlist MDD, DFPI CA crypto scam tracker, FTC
-- [ ] Пакет takedown: Cloudflare abuse (roqcoin), хостинг agora, IC3/FTC/DFPI
 
 ---
 
 # 🔬 ГЛУБОКАЯ РАЗВЕДКА (2026-08-13, оба проекта)
 
-## AGORA IDEA — API-поверхность (60 эндпоинтов из бандла 1.37 МБ)
 
 **Стек:** React/Vite SPA, бандл /assets/index-tMv4ZPRQ.js (1.37 МБ), nginx, IP 156.234.7.53
 
 ### Открыто БЕЗ авторизации (проверено, 200):
 | Эндпоинт | Что раскрывает |
 |---|---|
-| `/api/config/index` | **Инфраструктура**: чат на `dotesa.cfd` (channelId 4f6ab...), белая книга на `kemimxd.com`, платёжка **Udun** (isUdunRecharge), AI-стейкинг вкл |
 | `/api/config/stats` | Статистика |
 | `/api/config/langs` | Языки |
 | `/api/market/secondList` | Список торговых пар |
@@ -97,14 +90,10 @@
 - `/api/fish/*` — игровая механика «рыбалка» (вовлечение)
 
 ### Связанные домены (утечка связки):
-- `dotesa.cfd` — чат поддержки (резолвится 127.0.0.1 — мёртв)
-- `kemimxd.com` — хостинг белой книги (не отвечает)
 → **Один движок, много брендов** — классика скам-сетей
 
-## ROQCOIN — КЛОН WHITEBIT (раскрыто бандлом!)
 
 **Стек:** Vue SPA, бандл `/app-resources-d3/main.c2c45bcc0aee3d75aedb.js` (466 КБ)
-**КРИТИЧЕСКАЯ НАХОДКА:** webpack-chunk называется **`webpackChunkwhitebit_new_loc`** — движок скопирован у **WhiteBIT** (легальная биржа) → ROQCOIN = скам-клон WhiteBIT
 
 ### API (50+ эндпоинтов /api/spa/*):
 - `/api/spa/auth/login`, `/api/spa/auth/registration/wallet` — вход/регистрация
@@ -124,7 +113,6 @@
 4. CF защищает (смена IP при банне)
 
 ## ВЕРДИКТ
-Оба — живые скам-платформы с открытыми API-конфигами. AGORA раскрыла сеть брендов (dotesa/kemimxd), ROQCOIN раскрыл происхождение движка (WhiteBIT-клон). Данные пользователей — за авторизацией (401/405), пассивно не утекают.
 
 ## 📂 АРТЕФАКТЫ
 - output/usa_scam_projects.txt (список проверенных доменов)
