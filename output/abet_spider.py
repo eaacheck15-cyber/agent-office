@@ -76,13 +76,52 @@ MAX_URLS_PER_HOST = 120
 TIMEOUT = 12
 _pi = 0
 _lock = __import__("threading").Lock()
+PROXY_STATE = {}  # id(proxy) -> {"fail": n}
+
+def check_proxies():
+    """Health-check всех прокси при старте: параллельный пинг через api.ipify.org.
+    Возвращает список живых прокси и печатает статус-таблицу."""
+    def ping(p):
+        try:
+            r = requests.get("https://api.ipify.org", proxies=p, verify=False, timeout=8)
+            return (p, r.status_code == 200, r.text.strip())
+        except Exception:
+            return (p, False, "-")
+    alive = []
+    with cf.ThreadPoolExecutor(max_workers=len(PROXIES)) as ex:
+        results = list(ex.map(ping, PROXIES))
+    print("[spider] ── HEALTH-CHECK прокси ──", flush=True)
+    for p, ok, ip in results:
+        tag = p.get("http", "")
+        status = f"OK (exit={ip})" if ok else "DEAD"
+        print(f"  {tag:45} {status}", flush=True)
+        if ok:
+            alive.append(p)
+    if not alive:
+        print("[spider] ВСЕ прокси мертвы — работаю с последним известным", flush=True)
+        alive = PROXIES[:1]
+    return alive
 
 def next_proxy():
     global _pi
     with _lock:
-        p = PROXIES[_pi % len(PROXIES)]
-        _pi += 1
-        return p
+        for _ in range(len(PROXIES)):
+            p = PROXIES[_pi % len(PROXIES)]
+            _pi += 1
+            st = PROXY_STATE.get(id(p), {"fail": 0})
+            if st["fail"] < 3:  # живой или мало ошибок
+                return p
+        return PROXIES[0]
+
+def proxy_fail(p):
+    with _lock:
+        st = PROXY_STATE.setdefault(id(p), {"fail": 0})
+        st["fail"] += 1
+
+def proxy_ok(p):
+    with _lock:
+        st = PROXY_STATE.setdefault(id(p), {"fail": 0})
+        st["fail"] = 0
 
 RE_LINKS = re.compile(r'(?:href|src|action|data-url|data-href)=["\']([^"\']+)["\']', re.I)
 RE_JS = re.compile(r'\.js(?:\?[^"\'\s)]*)?', re.I)
@@ -118,11 +157,14 @@ def fetch(url, host):
                 "Sec-Fetch-Dest": "document", "Sec-Fetch-Mode": "navigate", "Sec-Fetch-Site": "cross-site",
                 "Cache-Control": "no-cache"}, verify=False, timeout=TIMEOUT,
                 allow_redirects=True)
+            proxy_ok(proxy)
             if r.status_code and r.status_code < 400:
                 return (r.status_code, (r.headers.get('Content-Type') or '').lower(), r.text)
             # 4xx/5xx — пробуем следующий прокси (сайт может блочить этот IP)
+            proxy_fail(proxy)
             continue
         except Exception:
+            proxy_fail(proxy)
             continue
     return (0, None, None)
 
@@ -211,6 +253,8 @@ def main():
     out_forms = f"/root/office/output/{target_name}_spider_forms.txt"
     lfi_out = f"/root/office/output/{target_name}_lfi.txt"
     _refresh_proxies()
+    global PROXIES
+    PROXIES = check_proxies()  # health-check при старте: в ротации только живые
     all_urls, all_js, all_forms = set(), set(), []
     robots_all, sitemap_all, errs = {}, {}, {}
     with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
