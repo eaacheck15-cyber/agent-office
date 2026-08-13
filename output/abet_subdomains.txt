@@ -18,3 +18,4 @@ metaapi.abetglobal.com
 mt5api.abetglobal.com
 cryptotest.abetglobal.com
 abetglobal.com
+stg-api.abetglobal.com
