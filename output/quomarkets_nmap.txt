@@ -1,0 +1,24 @@
+# Nmap 7.94SVN scan initiated Thu Aug 13 08:19:50 2026 as: nmap -Pn -sT -T2 -p 21,22,25,53,80,110,143,443,465,587,993,995,1433,3306,3389,8080,8443 --host-timeout 400s -oN /root/office/output/quomarkets_nmap.txt 172.66.40.75
+Nmap scan report for 172.66.40.75
+Host is up (0.42s latency).
+
+PORT     STATE  SERVICE
+21/tcp   open   ftp
+22/tcp   open   ssh
+25/tcp   open   smtp
+53/tcp   closed domain
+80/tcp   open   http
+110/tcp  open   pop3
+143/tcp  open   imap
+443/tcp  open   https
+465/tcp  open   smtps
+587/tcp  open   submission
+993/tcp  open   imaps
+995/tcp  open   pop3s
+1433/tcp open   ms-sql-s
+3306/tcp open   mysql
+3389/tcp closed ms-wbt-server
+8080/tcp open   http-proxy
+8443/tcp open   https-alt
+
+# Nmap done at Thu Aug 13 08:20:42 2026 -- 1 IP address (1 host up) scanned in 52.29 seconds

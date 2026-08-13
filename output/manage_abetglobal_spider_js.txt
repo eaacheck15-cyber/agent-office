@@ -1,0 +1,12 @@
+https://forum.abetglobal.com/lib/bootstrap/dist/js/bootstrap.bundle.min.js
+https://forum.abetglobal.com/lib/jquery/dist/jquery.min.js
+https://manage.abetglobal.com/css/sweetalert.js
+https://manage.abetglobal.com/js/custom.js
+https://manage.abetglobal.com/js/jquery.unobtrusive-ajax.min.js
+https://manage.abetglobal.com/js/select2.js
+https://manage.abetglobal.com/plugins/bootstrap/js/bootstrap.min.js
+https://manage.abetglobal.com/plugins/bootstrap/js/popper.min.js
+https://manage.abetglobal.com/plugins/jquery/jquery.min.js
+https://manage.abetglobal.com/plugins/notify/js/notifIt.js
+https://manage.abetglobal.com/plugins/p-scrollbar/p-scrollbar.js
+https://manage.abetglobal.com/plugins/select2/select2.full.min.js

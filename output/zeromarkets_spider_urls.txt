@@ -1,0 +1,5 @@
+0	https://yadix.com/
+0	https://zeromarkets.com/
+400	https://zforex.com/
+501	https://naga.pl/
+501	https://quomarkets.com/

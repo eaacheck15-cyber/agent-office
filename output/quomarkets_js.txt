@@ -1,0 +1,13 @@
+# Главный сайт (www.quomarkets.com)
+https://www.quomarkets.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1
+https://www.quomarkets.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1
+# Прочее: 5 inline-скриптов (georedirect OZ35KN/25Ijh5te4Yh0 + NsAe2ctQszs0nd54PGG, JSON-LD, Elementor)
+
+# Портал my.quomarkets.com (Angular)
+https://my.quomarkets.com/runtime.9904a8807eb3c4bb.js
+https://my.quomarkets.com/polyfills.b18c98ab1b187f62.js
+https://my.quomarkets.com/main.1dcaa0a10a89c369.js (484 КБ, скачан)
+https://my.quomarkets.com/assets/scripts/application-loader.js
+https://my.quomarkets.com/assets/scripts/unsupported-browser-dialog.js
+https://my.quomarkets.com/assets/scripts/preloader-branding.js
+https://static.zdassets.com/ekr/snippet.js?key=ce5ba931-4abf-440e-996e-eaeb69e031a1 (Zendesk)
