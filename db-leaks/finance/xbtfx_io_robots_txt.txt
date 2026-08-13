@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://xbtfx.com/sitemap-index.xml
+# AI/LLM guidance:
+# https://xbtfx.com/llms.txt
