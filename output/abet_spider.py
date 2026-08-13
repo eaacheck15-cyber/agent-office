@@ -22,6 +22,7 @@ FLAG_XSS = "--xss" in sys.argv
 FLAG_KIRPICH = "--kirpich" in sys.argv
 FLAG_DOWNLOAD = "--download" in sys.argv
 FLAG_ALIVE = "--alive" in sys.argv
+FLAG_COLLECT = "--collect" in sys.argv
 
 LFI_NAMES = ("file", "path", "page", "template", "doc", "include", "lang", "dir", "folder", "style", "theme", "load", "read", "url", "filename", "filepath")
 LFI_PAYLOADS = (
@@ -588,6 +589,70 @@ def _is_data_candidate(url, content_type, size, body_head):
 
 
 
+
+
+def run_collect():
+    """ПРАВИЛА ВЛАДЕЛЬЦА: всё что открыто и ценно — качаем в БД; ошибки = SQL-разведка.
+    Сканирует собранные URL, ищет ошибки (sql syntax и т.п.) и ценные страницы, пишет в loot.db."""
+    import sqlite3
+    db = "/root/office/output/loot.db"
+    c = sqlite3.connect(db)
+    c.execute("""CREATE TABLE IF NOT EXISTS open_data (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        type TEXT, value TEXT, detail TEXT, source TEXT)""")
+
+    ERROR_SIGNALS = ("sql syntax", "sql error", "mysql_", "you have an error",
+                     "fatal error", "stack trace", "uncaught", "warning:",
+                     "internal server error", "syntax error", "odbc", "mssql")
+    SQL_SIGNALS = ("sql syntax", "sql error", "mysql", "you have an error", "odbc", "mssql", "sqlstate")
+
+    added = 0
+    sql_candidates = []
+
+    # собираем URL из файлов паука
+    url_files = [f for f in os.listdir("/root/office/output") if f.endswith("_spider_urls.txt")]
+    urls = []
+    for uf in url_files:
+        p = f"/root/office/output/{uf}"
+        for line in open(p, encoding='utf-8', errors='replace'):
+            if line.startswith("200\t"):
+                urls.append(line.split("\t",1)[1].strip())
+
+    print(f"[collect] проверяю {len(urls)} открытых URL на ошибки/ценность...", flush=True)
+    for u in urls:
+        st, ct, body = fetch(u)
+        if not body:
+            continue
+        low = body.lower()
+        for sig in ERROR_SIGNALS:
+            if sig in low:
+                # строка с ошибкой
+                try:
+                    m = re.search(r'.{0,60}' + re.escape(sig) + r'.{0,80}', body, re.I)
+                    detail = m.group(0).replace('\n',' ')[:180] if m else sig
+                except Exception:
+                    detail = sig
+                c.execute("INSERT OR IGNORE INTO open_data (type, value, detail, source) VALUES (?,?,?,?)",
+                          ("error", u, f"{sig} | {detail}", "spider-collect"))
+                added += 1
+                if any(s in low for s in SQL_SIGNALS):
+                    sql_candidates.append(u)
+                    print(f"[collect] 🔴 SQL-СИГНАЛ: {u} [{sig}]", flush=True)
+                else:
+                    print(f"[collect] ⚠️ ошибка: {u} [{sig}]", flush=True)
+                break
+
+    c.commit()
+    # SQL-кандидаты сохраняем отдельно
+    if sql_candidates:
+        with open("/root/office/output/sql_recon_candidates.txt", "w") as f:
+            f.write("\n".join(sql_candidates) + "\n")
+        print(f"\n[collect] SQL-РАЗВЕДКА: {len(sql_candidates)} кандидатов -> output/sql_recon_candidates.txt", flush=True)
+    total = c.execute("SELECT COUNT(*) FROM open_data WHERE source='spider-collect'").fetchone()[0]
+    print(f"[collect] ИТОГО добавлено в loot.db (open_data): {total}", flush=True)
+    c.close()
+
+
 def run_alive():
     """Проверка доступности хостов через прокси-ротатор. Вывод: жив/мёртв/ошибка."""
     target_name = _target_name()
@@ -727,7 +792,9 @@ def _download_one(url, base_dir):
     return (None, 0)
 
 if __name__ == "__main__":
-    if FLAG_ALIVE:
+    if FLAG_COLLECT:
+        run_collect()
+    elif FLAG_ALIVE:
         run_alive()
     elif FLAG_DOWNLOAD:
         run_download()
