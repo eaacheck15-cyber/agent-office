@@ -1,6 +1,6 @@
 ---
 name: pentai-swarm-orchestrator
-description: ">-"
+description: "Delegates to this agent when the user wants to coordinate multiple pentest agents as a team, run a full automated red team engagement, orchestrate parallel reconnaissance and exploitation workflows, manage agent-to-agent handoffs, or execute a complete pentest lifecycle from planning through reporting with autonomous agent delegation."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

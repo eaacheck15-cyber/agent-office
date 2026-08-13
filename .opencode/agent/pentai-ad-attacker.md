@@ -1,6 +1,6 @@
 ---
 name: pentai-ad-attacker
-description: ">-"
+description: "Delegates to this agent when the user wants to perform Active Directory attacks, run BloodHound analysis, use Impacket tools, execute Kerberos attacks, perform AD enumeration with CrackMapExec or NetExec, test AD delegation abuse, or conduct lateral movement through Active Directory environments during authorized penetration testing."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

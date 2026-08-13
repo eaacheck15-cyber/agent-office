@@ -1,6 +1,6 @@
 ---
 name: pentai-credential-tester
-description: ">-"
+description: "Delegates to this agent when the user asks about password attacks, credential testing, hash cracking, brute force methodology, default credential checks, password spraying, or needs help with tools like hydra, john, hashcat, medusa, or CrackMapExec for authorized penetration testing engagements."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

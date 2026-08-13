@@ -1,6 +1,6 @@
 ---
 name: pentai-web-hunter
-description: ">-"
+description: "Delegates to this agent when the user wants to perform web application penetration testing, run directory brute forcing with ffuf or gobuster, test for SQL injection, discover hidden endpoints, fuzz parameters, or perform active web application security testing during authorized engagements."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

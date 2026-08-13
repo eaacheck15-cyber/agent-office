@@ -1,0 +1,3 @@
+OPENTUNNEL=https://forth-advertisers-aid-performs.trycloudflare.com
+PASSWORD=_42CTddn9ajGg9Lg
+LOCAL=http://127.0.0.1:8890

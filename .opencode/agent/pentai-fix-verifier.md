@@ -1,6 +1,6 @@
 ---
 name: pentai-fix-verifier
-description: ">-"
+description: "Delegates to this agent when the user wants to retest a vulnerability after a fix has been deployed, prove that a remediation actually closed the issue, verify a patch before closing a finding or a bug bounty report, check whether a fix broke working functionality, or confirm that a security regression has not reintroduced a previously closed vulnerability during authorized testing."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

@@ -1,6 +1,6 @@
 ---
 name: pentai-supply-chain-auditor
-description: ">-"
+description: "Delegates to this agent when the user wants to audit software supply chain risk, generate or review an SBOM, hunt for dependency confusion and typosquatting exposure, inspect lockfile and package integrity, review install-time scripts in third-party packages, assess build and artifact provenance, or evaluate the blast radius of a compromised upstream dependency during authorized security work."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

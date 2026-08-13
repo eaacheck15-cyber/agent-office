@@ -1,6 +1,6 @@
 ---
 name: pentai-poc-validator
-description: ">-"
+description: "Delegates to this agent when the user wants to validate a vulnerability finding with a safe Proof of Concept, eliminate false positives from scan results, automatically generate and execute PoC scripts for confirmed vulnerabilities, or verify that a reported bug is real before including it in a pentest report."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

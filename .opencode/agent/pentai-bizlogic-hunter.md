@@ -1,6 +1,6 @@
 ---
 name: pentai-bizlogic-hunter
-description: ">-"
+description: "Delegates to this agent when the user wants to test for business logic flaws, find workflow bypass vulnerabilities, detect price manipulation or payment tampering, identify race conditions in transactions, test authorization boundaries between user roles, or discover logic errors that standard vulnerability scanners miss during authorized penetration testing."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

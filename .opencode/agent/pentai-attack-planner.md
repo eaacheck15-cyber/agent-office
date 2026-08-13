@@ -1,6 +1,6 @@
 ---
 name: pentai-attack-planner
-description: ">-"
+description: "Delegates to this agent when the user wants to correlate findings from multiple tools or agents, build multi-step attack chains, identify the optimal exploitation path through a network, prioritize attack vectors across an engagement, or plan lateral movement strategies for authorized penetration testing."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

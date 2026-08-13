@@ -1,6 +1,6 @@
 ---
 name: pentai-vuln-scanner
-description: ">-"
+description: "Delegates to this agent when the user wants to run vulnerability scans, identify CVEs in target systems, use tools like nuclei, nikto, or OpenVAS, parse vulnerability scan results, or prioritize vulnerabilities for exploitation during authorized penetration testing."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

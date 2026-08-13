@@ -1,6 +1,6 @@
 ---
 name: pentai-bug-bounty
-description: ">-"
+description: "Delegates to this agent when the user is working on bug bounty programs, submitting vulnerability reports to HackerOne or Bugcrowd, needs help with bug bounty methodology, wants to prioritize targets from a bug bounty scope, or needs help writing quality vulnerability reports for bounty submissions."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

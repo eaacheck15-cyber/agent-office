@@ -1,6 +1,6 @@
 ---
 name: pentai-cicd-redteam
-description: ">-"
+description: "Delegates to this agent when the user wants to integrate red teaming into CI/CD pipelines, set up continuous automated security testing on every code push, generate pipeline configurations for automated pentesting, configure scheduled security assessments in deployment workflows, or build a continuous red team capability that catches vulnerabilities before production."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---
