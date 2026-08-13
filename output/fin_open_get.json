@@ -1,0 +1,66 @@
+[
+ {
+  "dom": "switchmarkets.net",
+  "path": "/signup",
+  "code": 200,
+  "json": false,
+  "title": "Open Live or Demo Trading Account - Swit",
+  "len": 810568
+ },
+ {
+  "dom": "switchmarkets.net",
+  "path": "/robots.txt",
+  "code": 200,
+  "json": false,
+  "title": "?",
+  "len": 110
+ },
+ {
+  "dom": "fxview.com",
+  "path": "/api/",
+  "code": 200,
+  "json": false,
+  "title": "Fxview : Trade with Global Multi Asset B",
+  "len": 550654
+ },
+ {
+  "dom": "fxview.com",
+  "path": "/api/v1/",
+  "code": 200,
+  "json": false,
+  "title": "Fxview : Trade with Global Multi Asset B",
+  "len": 556970
+ },
+ {
+  "dom": "fxview.com",
+  "path": "/.env",
+  "code": 200,
+  "json": false,
+  "title": "Fxview : Trade with Global Multi Asset B",
+  "len": 550654
+ },
+ {
+  "dom": "fxview.com",
+  "path": "/robots.txt",
+  "code": 200,
+  "json": false,
+  "title": "Fxview : Trade with Global Multi Asset B",
+  "len": 550660
+ },
+ {
+  "dom": "fxview.com",
+  "path": "/swagger",
+  "code": 200,
+  "json": false,
+  "title": "Fxview : Trade with Global Multi Asset B",
+  "len": 550657
+ },
+ {
+  "dom": "mtrading.io",
+  "path": "/robots.txt",
+  "code": 200,
+  "json": false,
+  "title": "?",
+  "len": 851
+ }
+]

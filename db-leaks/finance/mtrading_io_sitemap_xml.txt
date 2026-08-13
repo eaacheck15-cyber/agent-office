@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<sitemap><loc>https://mtrading.io/sitemap-education.xml</loc><lastmod>2026-06-16T07:35:31.168881+00:00</lastmod></sitemap><sitemap><loc>https://mtrading.io/sitemap-news.xml</loc><lastmod>2026-08-03T11:23:28.330872+00:00</lastmod></sitemap><sitemap><loc>https://mtrading.io/sitemap-blog.xml</loc><lastmod>2026-06-08T13:15:48.202345+00:00</lastmod></sitemap><sitemap><loc>https://mtrading.io/sitemap-products.xml</loc><lastmod>2026-07-30T06:00:25.972603+00:00</lastmod></sitemap><sitemap><loc>https://mtrading.io/sitemap-other.xml</loc><lastmod>2026-08-07T15:14:59.073743+00:00</lastmod></sitemap>
+</sitemapindex>

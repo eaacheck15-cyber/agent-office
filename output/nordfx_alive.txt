@@ -1,0 +1,4 @@
+ЖИВ	200	https://nordfx.io/
+ЖИВ	200	https://switchmarkets.net/
+ЖИВ	200	https://fxview.com/
+ЖИВ	200	https://mtrading.io/

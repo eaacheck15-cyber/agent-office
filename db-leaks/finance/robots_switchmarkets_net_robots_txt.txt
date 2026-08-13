@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /private/
+Disallow: /lp/
+
+Sitemap: https://www.switchmarkets.com/sitemap.xml
