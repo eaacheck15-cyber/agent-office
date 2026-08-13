@@ -100,3 +100,32 @@
 ## 4. АРТЕФАКТЫ
 - output/zeromarkets_subdomains.txt (29), yadix_subdomains.txt (10)
 - edge_check.txt (пограничные: trading.md — агрегатор, fxgrow/fxclub — легальные, ftm.by — блочит)
+
+---
+
+## 5. ОШИБКИ И ОТКРЫТЫЕ ПОВЕРХНОСТИ — ПРОВЕРЕНО (2026-08-13)
+
+### Yadix
+| Ошибка/поверхность | Статус | Детали |
+|---|---|---|
+| **Plesk-панель на :8443** | **ОТКРЫТА** | `/login.php` → 303 → `/login_up.php` (стандартный Plesk) — панель управления сервером в интернете |
+| **Раскрытие стека** | ОШИБКА | `Server: Microsoft-IIS/10.0` + `X-AspNet-Version: 4.0.30319` + `X-Powered-By-Plesk: PleskWin` — полный расклад |
+| **Нет security-заголовков** | ОШИБКА | HSTS/X-Frame-Options/CSP отсутствуют (есть только nosniff на 8443) |
+| Кабинет | ОТКРЫТ | cabinet.yadix.com (77.68.2.222) — вне CF |
+| Георедирект | 301→/ | Все страницы, включая /bonus, /register |
+
+### Zero Markets
+| Ошибка/поверхность | Статус | Детали |
+|---|---|---|
+| **Нет security-заголовков** | ОШИБКА | За CF: только `server: cloudflare`, HSTS/XFO/nosniff/CSP отсутствуют |
+| **Внутренний IP в DNS** | УТЕЧКА | `ninedata.zeromarkets.com` → **10.0.1.107** (приватный адрес в публичном DNS) |
+| **WordPress REST открыт** | ОТКРЫТ | `wp-json/` 200 (namespaces: yoast, contact-form-7, wp/v2); users/pages → 302, CF7 → 403 (частично закрыт) |
+| **MT5 WebTerminal** | ОТКРЫТ | `tradeserver/terminal` 200, кастомный клиент (обфусцированные ассеты), конфиг без секретов |
+| wp-admin | 403 | Закрыт (CF-правило) |
+| prometheus /metrics | 000 | Недоступен с ротатора (проверить с других точек) |
+
+### Итог по критичности
+1. **CRITICAL-кандидат**: Plesk-панель Yadix наружу (порт 8443) — полный доступ к серверу при слабых кредах
+2. **HIGH**: раскрытие стека Yadix (IIS/ASP.NET 4.0/Plesk) — точные версии для подбора CVE
+3. **MEDIUM**: внутренний IP Zero в DNS; нет security-заголовков у обеих целей
+4. **INFO**: wp-json частично открыт, кастомный терминал без секретов
