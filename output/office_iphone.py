@@ -23,7 +23,12 @@ REAL_MODELS = [
     "iPhone 11 Pro Max", "iPhone 11 Pro", "iPhone 11",
     "iPhone SE (3rd gen)", "iPhone SE",
     "iPhone Air",
-    "iPad Pro 11", "iPad (gen 11)",
+    # Планшеты: 3 последних поколения + Pro
+    "iPad (gen 11)",   # последнее поколение
+    "iPad (gen 7)",    # 2-е с конца
+    "iPad (gen 6)",    # 3-е с конца
+    "iPad Pro 11",     # топовый
+    "iPad Mini",       # мини
 ]
 
 model = None
