@@ -1,0 +1,2 @@
+/api/join-newsletter
+/api/v1/graphql

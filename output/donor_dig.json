@@ -1,0 +1,113 @@
+[
+ {
+  "dom": "tradequo.ae",
+  "open": [],
+  "errors": [
+   "warning:"
+  ],
+  "api": []
+ },
+ {
+  "dom": "gulfbrokers.ae",
+  "open": [],
+  "errors": [
+   "warning:"
+  ],
+  "api": []
+ },
+ {
+  "dom": "cxm.com",
+  "open": [
+   {
+    "path": "/register",
+    "code": 200,
+    "kind": "\u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430",
+    "len": 75699
+   }
+  ],
+  "errors": [
+   "warning:",
+   "exception"
+  ],
+  "api": []
+ },
+ {
+  "dom": "bridgemarkets.eu",
+  "open": [],
+  "errors": [
+   "exception"
+  ],
+  "api": []
+ },
+ {
+  "dom": "lbx.com",
+  "open": [],
+  "errors": [
+   "warning:",
+   "exception"
+  ],
+  "api": []
+ },
+ {
+  "dom": "integralyatirim.com",
+  "open": [],
+  "errors": [],
+  "api": []
+ },
+ {
+  "dom": "on.com",
+  "open": [
+   {
+    "path": "/register",
+    "code": 200,
+    "kind": "\u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430",
+    "len": 4026
+   }
+  ],
+  "errors": [],
+  "api": []
+ },
+ {
+  "dom": "gcmyatirim.com",
+  "open": [],
+  "errors": [],
+  "api": []
+ },
+ {
+  "dom": "bcs-forex.ru",
+  "open": [
+   {
+    "path": "/robots.txt",
+    "code": 200,
+    "kind": "\u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430",
+    "len": 249
+   }
+  ],
+  "errors": [],
+  "api": []
+ },
+ {
+  "dom": "roboforex.ae",
+  "open": [
+   {
+    "path": "/api/",
+    "code": 200,
+    "kind": "JSON",
+    "len": 123
+   },
+   {
+    "path": "/robots.txt",
+    "code": 200,
+    "kind": "\u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430",
+    "len": 2917
+   }
+  ],
+  "errors": [],
+  "api": [
+   {
+    "path": "/api/",
+    "body": "{\"response\":{\"error_message\":\"This is not a JSON-RPC request\",\"error_code\":400},\"crc32\":\"17db46a829bab5bc33774965ab882c8b\"}"
+   }
+  ]
+ }
+]
