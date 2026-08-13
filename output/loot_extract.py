@@ -45,6 +45,23 @@ RE_KEYS = {
     "domain": re.compile(r"\b[a-z0-9][a-z0-9\-]{1,60}\.(?:com|net|org|io|pl|md|by|in|eu|de|fr|uk|ru|it|es|hu|pt|tr|nl|ro|cz)\b"),
 }
 
+# JS-мусорные маркеры: если connstr содержит код, это ложное срабатывание минификатора
+JS_GARBAGE = ("dispose", "function", "partialObserver", "{const", "}const", "return", "=>", "this.", "e=>",
+              "n=>", "t=>", "new ", ".bind(", "apply(", "call(", "0x", "_0x", "true", "false", "null",
+              "===t.", "===", "password===t", "server=r}", "server=Q}", "server=n}",
+              "server=new", "oldpassword", ".oldpassword", "password=p.", "p.oldpassword")
+
+def _looks_real_connstr(v):
+    """Настоящая строка подключения: без JS-кода, с именем сервера/параметрами."""
+    low = v.lower()
+    for m in JS_GARBAGE:
+        if m.lower() in low:
+            return False
+    # минимум 3 символа после префикса и не похоже на оператор
+    if len(v) < 5:
+        return False
+    return True
+
 def main():
     if os.path.exists(DB):
         os.remove(DB)
@@ -86,6 +103,8 @@ def main():
                     parts = val.split(".")
                     if any(int(p) > 255 for p in parts):
                         continue
+                if k == "connstr" and not _looks_real_connstr(val):
+                    continue
                 if val in seen[k]:
                     continue
                 seen[k].add(val)
