@@ -1,0 +1,126 @@
+APP_NAME=Laravel
+OPTIMIZE_CLEAR_TOKEN=paxha-clear-2026
+APP_ENV=production
+APP_KEY=***MASKED***
+APP_DEBUG=false
+APP_URL=https://ennonly281.com/
+DUSK_DRIVER_URL=https://ennonly281.com/
+LOG_CHANNEL=daily
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+Website_title="lll288"
+APP_DOMAIN=ennonly281.com
+DEFAULT_LANGUAGE=en
+
+
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=enen11only_en11onlyyyy
+DB_USERNAME=enen11only_en11onlyyyy
+DB_PASSWORD="***MASKED***"
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+
+MEMCACHED_HOST=127.0.0.1
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=79d821b76fd8fe
+MAIL_PASSWORD=***MASKED***
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=admin@${APP_DOMAIN}
+MAIL_FROM_NAME="${APP_NAME}"
+SUPPORT_EMAIL=admin@${APP_DOMAIN}
+OPENAI_API_KEY=***MASKED***
+
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false 
+
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=mt1
+
+MIX_PUSHER_APP_KEY="***MASKED***"
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+
+GOOGLE_MAP_KEY=
+
+NOCAPTCHA_SECRET=
+NOCAPTCHA_SITEKEY=
+RECAPTCHA_SITE_KEY=
+RECAPTCHA_SECRET_KEY=
+RECAPTCHA_SITE=https://www.google.com/recaptcha/admin/
+
+BUGSNAG_API_KEY=
+
+ZEROBOUNCE_ENABLED=true
+
+# hyperpay config
+SANDBOX_MODE=true
+CURRENCY=SAR
+# test keys config
+ACCESS_TOKEN=
+ENTITY_ID_MADA=
+ENTITY_ID=
+ENTITY_ID_APPLE_PAY=
+# live keys config
+ACCESS_TOKEN_live=
+ENTITY_ID_live=
+ENTITY_ID_MADA_live=
+ENTITY_ID_APPLE_PAY_live=
+# hyperpay config
+
+
+
+Website_name_en="Official Website"
+Website_name_ar="الموقع الرسمي"
+Website_name_de="Offizielle Website"
+Website_name_da="Officiel hjemmeside"
+Website_name_cs="Oficiální stránky"
+Website_name_fr="Site officiel"
+Website_name_zh="官方網站"
+Website_name_tr="Resmi Web Sitesi"
+Website_name_sv="Officiell webbplats"
+Website_name_sk="Oficiálna webová stránka"
+Website_name_ru="Официальный сайт"
+Website_name_ro="Site-ul oficial"
+Website_name_pt="Site oficial"
+Website_name_pl="Oficjalna Strona Internetowa"
+Website_name_fil="Opisyal na Website"
+Website_name_no="Offisiell nettside"
+Website_name_ko="공식 웹사이트"
+Website_name_ja="公式ウェブサイト"
+Website_name_it="Sito ufficiale"
+Website_name_id="Situs Web Resmi"
+Website_name_hu="Hivatalos weboldal"
+Website_name_hr="Službena web stranica"
+Website_name_el="Επίσημος Ιστότοπος"
+Website_name_es="Sitio web oficial"
+Website_name_is="Opinber vefsíða"
+Website_name_fi="Virallinen verkkosivusto"
+Website_name_nl="Officiële website"
+Website_name_th="เว็บไซต์อย่างเป็นทางการ"
+
+
+
+
+
+
+
