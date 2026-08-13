@@ -122,3 +122,19 @@ connection strings в бандлах нет, все API-эндпоинты да�
 BitNBox, MT5-серверы с паролями в модели Platforms).
 
 Артефакты: `applicationapi_swagger.json`, `crypto_swagger.json`.
+
+## 8. Механика авторизации (JWT и API-ключ) — поиск ключа
+
+**Админка eedmin/testadmin (CRM):**
+- Фронт использует относительные URL (`/Accounts/Login`, `/AdminManagement/BackendMenus`, `/Dashboard/DashboardWidgets`) — бэкенд на том же хосте.
+- После логина сервер выдаёт JWT → `localStorage.setItem("token", n)`, запросы с `Authorization: Bearer <token>`.
+- Логин с невалидными кредами → `Invalid Email or Password` (эндпоинт живой, проверено).
+
+**BrokerAPI (applicationapi.abetglobal.com):**
+- Требует отдельный **API-ключ** (не JWT): `401 "Api Key was not provided"` даже на `POST /api/Account/Login` и `/api/Account/Signup`.
+- В swagger securityDefinitions пусто, только global `[{"Bearer": []}]` — название заголовка ключа не раскрыто.
+
+**Поиск ключа (пассивный, 2026-08-13):**
+- Grep всех бандлов (eedmin, testadmin/abet_admin, main_abetglobal, secure, staging, manage) по `apiKey|apikey|X-Api-Key|Authorization|Bearer|secret` — **хардкод-ключа НЕТ**.
+- Swagger securityDefinitions — пуст. Открытые файлы сайта — пусто.
+- **Вердикт: API-ключ и JWT пассивно не раскрыты.** Получение возможно только через: (а) креды админа CRM (JWT при логине), (б) ключ от владельца, (в) эксплуатацию (вне scope разведки).
