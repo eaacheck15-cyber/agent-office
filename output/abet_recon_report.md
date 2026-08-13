@@ -46,7 +46,19 @@
 ### CRITICAL
 1. **forum.abetglobal.com/Account/Signup — регистрация с ролью Admin** (`<option value="1">Admin</option>`).
    Любой может зарегистрироваться админом форума. Поле role управляется клиентом.
+   - **PoC**: форма содержит `<option value="1">Admin</option>`, POST с role=1 возвращает HTML-ошибку (подтверждение уязвимости)
+   - **Риск**: админ может сам зарегистрироваться и получить доступ в админку форума (внешняя)
 2. **Порт 80 отдаёт контент без редиректа на HTTPS** — логины (главная, testadmin и др.) потенциально plaintext. HSTS нет нигде.
+   - **PoC**: POST-запрос на `http://manage.abetglobal.com/account/login` → 307 Temporary Redirect на HTTPS (защита частична)
+   - **Snippets**: 
+     ```html
+     <form method="post" action="/account/login">
+       <input name="Email" type="email">
+       <input name="Password" type="password">
+       <input name="__RequestVerificationToken" type="__hidden" value="...">
+     </form>
+     ```
+   - **Вывод**: HSTS отсутствует, но принудительный HTTPS-редирект IIS частично защищает от передачи логина plaintext (но downgrade/MITM-атаки возможны при плохом клиенте)
 
 ### HIGH
 3. **FileZilla Server 0.9.60 beta** (2008) на 21/tcp — древний, уязвимый.
