@@ -1,6 +1,6 @@
 ---
 name: op-security-auditor
-description: ">-"
+description: "Elite security auditor for vibe-coded applications: code review, configuration and architecture audit, remediation. Use for: security audit, code review, vulnerability scan, secure coding."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---

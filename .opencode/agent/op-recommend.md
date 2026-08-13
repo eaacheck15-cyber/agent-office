@@ -1,11 +1,20 @@
 ---
 name: op-recommend
-description: "Pentest agent op-recommend. Use for authorized penetration testing tasks."
+description: "Pentest agent op-recommend. Routes pentesting/security-audit tasks to the right specialist agent. Use for: choose agent, route task, who handles."
 model: deepseek/deepseek-v4-flash
 mode: subagent
 ---
----|
----|---|---|---|
+
+# Agent Recommendation Engine
+
+> Ported from [0xSteph/pentest-ai-agents](https://github.com/0xSteph/pentest-ai-agents) `recommend.md` slash command
+> Routes pentesting or security audit tasks to the right specialist agent.
+
+## Agent Catalog
+
+**Available agents** (implemented and on disk):
+
+|---|---|---|---|
 | "Audit my code for vulnerabilities" | security-auditor | — | Fully implemented |
 | "Pentest target.com" | pentester-orchestrator | recon-agent | Full engagement |
 | "Scan for open ports" | recon-agent | pentester-executor | Use nmap/masscan |
