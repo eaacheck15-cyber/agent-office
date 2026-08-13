@@ -1,0 +1,44 @@
+# AGENTS.md — Офис агентов (общий контекст для ВСЕХ агентов)
+
+## 🎯 Активная цель (обязательный контекст)
+
+**ABET Global (abetglobal.com)** — индийский фейк-скам под видом болгарского форекс-брокера.
+
+Полный разведотчёт с фактами, эндпоинтами и зонами риска: **`targets/abet-global.md`**
+
+### Краткая сводка (для любого агента, вызванного по задаче об ABET)
+
+| Факт | Значение |
+|---|---|
+| Тип | Форекс-пирамида / скам-брокер, без лицензии |
+| Сайт | https://abetglobal.com (живой, регистрация открыта) |
+| Реальный хостинг | Индия (BookAndHost) + США (Psychz, Dallas) — «офис в Софии» фикция |
+| Сервер | Windows, Microsoft-IIS/10.0, ASP.NET, MailEnable 10.54 |
+| IP | 108.181.154.20 (AS40676 Psychz) |
+| Открытые порты | 21, 110, 443, 587 |
+| Поддомены (15) | www, api, manage, secure, crypto, forum, staging, testadmin, eedmin, uat, testmt5, testadmin, applicationapi, cmsapi, www.secure |
+| **Админки (живые)** | testadmin.abetglobal.com + eedmin.abetglobal.com — «Broker CRM - Admin Panel» (React/Vite, IIS/ASP.NET) |
+| **Портал клиентов** | manage.abetglobal.com (jQuery/Bootstrap) |
+| **API** | 250 эндпоинтов в `output/abet_endpoints.txt`, живые: `/api/Accounts/Login` (email+пароль), `/api/AdminManagement/*` (401), `/Clients/*` (ClientList, GetClientWallets, ClientDeposit, ClientWithdrawal), `/Affiliate/*` (рефералы) |
+| Аналитика | Google Analytics G-E1GLTK5PRC — реальный трафик |
+| Жалобы | WikiFX: «Missing Funds and Trade Manipulation», SCAM ALERT |
+
+### Правила работы по цели
+1. **Все сетевые проверки — через SOCKS5-ротатор** `socks5h://127.0.0.1:1080` (наш IP забанен портом 443) или прокси `http://4vZ956:E4RnNa@193.41.115.31:8000`.
+2. **Только разведка и анализ открытых данных.** Авторизованный тест — по явному приказу оркестратора.
+3. **НЕ проводить**: подбор паролей, атаки на живую CRM, эксплуатацию без авторизации. Это взлом, не разведка.
+4. Результаты класть в `./output` офиса.
+5. Scope: abetglobal.com и поддомены, ничего сверх.
+
+### Где лежат артефакты
+- `targets/abet-global.md` — полный разведотчёт (8 разделов)
+- `output/abet_endpoints.txt` — 250 API-эндпоинтов CRM
+- `output/abet_admin.js` — JS-бандл админки (1.9 МБ) — искать ключи/JWT/секреты
+- `output/abet_nmap.txt` — скан портов
+
+## Стандартные правила офиса
+
+- Все агенты: автономия, доводить задачу до конца, возвращать фактический итог.
+- Никогда не использовать абсолютный путь /output — только ./output внутри проекта.
+- Визуальный анализ — через vision. Код — через venice. Клонирование — cloner.
+- Пентест-задачи — через ts-*/pentai-*/loki-* (выбор: op-recommend).

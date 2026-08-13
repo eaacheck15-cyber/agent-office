@@ -3,6 +3,7 @@
   "share": "disabled",
   "default_agent": "orchestrator",
   "subagent_depth": 2,
+  "instructions": ["AGENTS.md"],
   "provider": {
     "venice": {
       "models": {
