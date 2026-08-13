@@ -4,15 +4,15 @@
 
 ---
 
-## 1. ABET Global (abetglobal.com) — индийский скам-брокер
+## 1. [удалено]
 
 ### Крит: Открытые CRM-админки в DNS
-- **testadmin.abetglobal.com** — «Broker CRM - Admin Panel» (React/Vite, IIS/ASP.NET) — ЖИВОЙ 200
-- **eedmin.abetglobal.com** — вторая копия админки (опечатка admin!) — ЖИВОЙ 200
-- Непрод в проде: uat, staging, testmt5, testadmin — открыты наружу
+- **[удалено]
+- **[удалено]
+- Непрод в проде: uat, staging, testmt5, [удалено]
 
 ### Крит: 250 API-эндпоинтов извлечено из бандла
-- `output/abet_endpoints.txt` — полный список
+- `output/[удалено]
 - Живой логин: `POST /api/Accounts/Login` (email+password) — активен
 - `GET /api/AdminManagement/*` → 401 «UnAuthorized - Token Expired» (API существует)
 - Финансовые: `/Clients/ClientDeposit`, `/Clients/ClientWithdrawal`, `/Clients/GetClientWallets`, `/Clients/DepositHistory`
