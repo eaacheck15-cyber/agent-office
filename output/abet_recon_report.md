@@ -138,3 +138,33 @@ BitNBox, MT5-серверы с паролями в модели Platforms).
 - Grep всех бандлов (eedmin, testadmin/abet_admin, main_abetglobal, secure, staging, manage) по `apiKey|apikey|X-Api-Key|Authorization|Bearer|secret` — **хардкод-ключа НЕТ**.
 - Swagger securityDefinitions — пуст. Открытые файлы сайта — пусто.
 - **Вердикт: API-ключ и JWT пассивно не раскрыты.** Получение возможно только через: (а) креды админа CRM (JWT при логине), (б) ключ от владельца, (в) эксплуатацию (вне scope разведки).
+
+## 9. Что открыто в свободном доступе (вскрытые поверхности, без авторизации)
+
+### Данные/контент (открыто, читается)
+| Поверхность | Что даёт | Проверено |
+|---|---|---|
+| Swagger `applicationapi/swagger/v1/swagger.json` | Полная схема БД (25 таблиц, MT5-пароли в Platforms) | 200 |
+| Swagger `crypto/swagger/v1/swagger.json` | Крипто-вебхуки (BitNBox) | 200 |
+| `/generic/GetCountries` (manage) | 239 стран (без авторизации) | 200 |
+| `/generic/GetCountryById?countryId=X` (manage) | Страна по ID | 200 |
+| JS-бандлы (10 шт) | Полная логика API (250+ эндпоинтов), JWT-механика, приватные роуты | 200 |
+| robots.txt | Приватные пути CMS (/add-user, /user-list, /blog-list) | 200 |
+| Форум `/Home`, `/Account/Login`, `/Account/Signup` | Публичные страницы, регистрация открыта | 200/302 |
+| `/account/register`, `/account/login`, `/account/forgotpassword` (manage) | Регистрация/восстановление открыты | 200 |
+| Главный сайт + лендинги | Весь контент | 200 |
+
+### Поверхности с уязвимостями (открыты, но данные защищены)
+| Поверхность | Статус | Данные |
+|---|---|---|
+| `/public/users_list` на testadmin/eedmin/secure/staging | 200 | SPA-fallback, данных нет |
+| `/api/cms/content` (abetglobal) | 200 | index.html (SPA), данных нет |
+| `/api/Users/GetUserByUserId` (BrokerAPI) | 401 | Нужен API-ключ |
+| `/api/Users/GetAllMembers` (BrokerAPI) | 401 | Нужен API-ключ |
+| `/AdminManagement/Users`, `/Clients/ClientList` | 401 | Нужен JWT |
+| Баннеры FTP/SMTP/POP3/IMAP | 220 | Раскрывают версии (FileZilla 0.9.60, MailEnable 10.54) |
+| TLS-сертификаты | самоподписанные | CA истёк 2021 |
+
+### Итог
+**Реально «вскрыто» (данные без авторизации):** схема БД (Swagger), 239 стран, все бандлы с логикой, приватные пути, публичные формы.  
+**Данные пользователей/БД:** НЕ вскрыты — за API-ключом/JWT (401).
