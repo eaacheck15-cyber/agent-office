@@ -1,0 +1,5 @@
+ЖИВ	200	https://midasfx.com/
+ЖИВ	200	https://hankotrade.com/
+ЖИВ	200	https://agora-base.com/
+ЖИВ	200	https://quomarkets.com/
+МЁРТВ	0	https://ennonly281.com/
