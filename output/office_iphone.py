@@ -12,8 +12,19 @@ URL = sys.argv[1] if len(sys.argv) > 1 else "https://midasfx.com"
 SHOT = "--shot" in sys.argv
 DUMP = "--dump" in sys.argv
 
-# РЕАЛЬНЫЕ модели из playwright.devices (проверено: существуют)
-REAL_MODELS = ["iPhone 15", "iPhone 15 Pro", "iPhone 13", "iPhone 12", "iPhone SE", "iPad Pro 11", "iPhone X"]
+# РЕАЛЬНЫЕ модели из playwright.devices (проверено: существуют, включая 16/17)
+REAL_MODELS = [
+    "iPhone 17 Pro Max", "iPhone 17 Pro", "iPhone 17", "iPhone 17e",
+    "iPhone 16 Pro Max", "iPhone 16 Pro", "iPhone 16 Plus", "iPhone 16", "iPhone 16e",
+    "iPhone 15 Pro Max", "iPhone 15 Pro", "iPhone 15 Plus", "iPhone 15",
+    "iPhone 14 Pro Max", "iPhone 14 Pro", "iPhone 14 Plus", "iPhone 14",
+    "iPhone 13 Pro Max", "iPhone 13 Pro", "iPhone 13 Mini", "iPhone 13",
+    "iPhone 12 Pro Max", "iPhone 12 Pro", "iPhone 12 Mini", "iPhone 12",
+    "iPhone 11 Pro Max", "iPhone 11 Pro", "iPhone 11",
+    "iPhone SE (3rd gen)", "iPhone SE",
+    "iPhone Air",
+    "iPad Pro 11", "iPad (gen 11)",
+]
 
 model = None
 for a in sys.argv:
