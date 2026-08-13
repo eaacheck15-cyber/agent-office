@@ -93,3 +93,12 @@
 - `output/abet_admin.js` — бандл админки 1
 - `output/abet_nmap.txt` — скан портов
 - `output/nikto_admin_v5.txt` — nikto-скан админки
+
+## 🆕 ОБНОВЛЕНИЕ 2026-08-13 (полная разведка через ротатор)
+
+- **21 поддомен** (все на одном IP 108.181.154.20): + `stg-api.abetglobal.com` (стейджинг-API, найден в бандле)
+- **Открытые Swagger** (схема БД — 25 таблиц): `applicationapi` (BrokerAPI, 10 paths) и `crypto` (вебхуки BitNBox)
+- **БД наружу не отдаётся**: SQL-порт закрыт, все эндпоинты данных 401 «Api Key was not provided»
+- **JWT-механика**: админка хранит токен в localStorage, BrokerAPI требует отдельный API-ключ (не раскрыт)
+- **Критические находки**: регистрация админом форума (`role=1` в Signup), отсутствие HSTS, FileZilla 0.9.60 beta (2008)
+- **Торговый профиль**: см. `TRADING.md` (MT5-серверы с паролями в модели Platforms, BitNBox-крипта, плечо 1:1000, партнёрка)
