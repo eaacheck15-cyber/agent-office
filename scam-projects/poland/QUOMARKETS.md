@@ -103,6 +103,19 @@ social, sp-bounce, sp-track, sso, status, support, tradingview, traefik, tyga, u
 4. **Тексты жалоб**: FSA Seychelles, SCA Dubai, KNF/UOKiK Польша, FSCA ЮАР, регулятор SVG, Trustpilot, WikiFX
 5. **Пакет takedown**: Cloudflare abuse, AWS (register), OVH (51.68.54.184), хостинг WP
 
+## 8а. ПРОВЕРЕНО (2026-08-13, статус «открытый доступ?»)
+
+| Поверхность | Проверка | Статус |
+|---|---|---|
+| rabbitmq.quomarkets.com `/api/overview` | GET через прокси | **401 — ЗАЩИЩЕНО** (консоль торчит, но auth есть) |
+| api-auth.quomarkets.com (squid) | GET корень / CONNECT | **404 nginx / 400 CF — ЗАКРЫТО** (squid не доступен извне) |
+| `/api/v2/my/system-info` | GET без токена | **200 — ОТКРЫТО (утечка!)**: tenant, вендор FlexProtect, Zendesk, APK, Amplitude-ключ |
+| CORS на WP | заголовки | **МИСКОНФИГ**: `allow-origin: *` + `allow-credentials: true` |
+| HSTS | заголовки | **ОТСУТСТВУЕТ** на всех хостах |
+| wp-json/users | GET | 401 (REST открыт, перечисление закрыто) |
+
+**Вердикт:** единственная подтверждённая утечка с открытым доступом — `/api/v2/my/system-info` (раскрытие внутренней инфраструктуры). RabbitMQ и squid НЕ открыты анонимно — только поверхности.
+
 ## 9. АРТЕФАКТЫ (./output)
 
 - quomarkets_subdomains.txt (37), quomarkets_httpx.json, quomarkets_nmap*.txt
