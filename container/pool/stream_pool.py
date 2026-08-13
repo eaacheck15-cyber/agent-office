@@ -213,7 +213,75 @@ def persister_loop():
             print(f"[pool] persist err: {e}", file=sys.stderr, flush=True)
 
 
+
+
+# ════════════════════════════════════════════════════════
+# HTTP API пула: отдаёт ТОЛЬКО валидные (проверенные) прокси.
+# Паук берёт прокси строго отсюда, а не из файла напрямую.
+# ════════════════════════════════════════════════════════
+try:
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+    import urllib.parse as _up
+
+    class PoolAPI(BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def _json(self, obj, code=200):
+            data = json.dumps(obj, ensure_ascii=False).encode()
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        def _txt(self, text):
+            data = text.encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        def do_GET(self):
+            u = _up.urlparse(self.path)
+            q = _up.parse_qs(u.query)
+            with _lock:
+                # только ПРОВЕРЕННЫЕ: rtt < 900 (не seed)
+                verified = [p for p in _pool.values()
+                            if p.get("alive") and p.get("proto") == "socks5"
+                            and (p.get("rtt") or 0) < 900 and ":" in p.get("proxy", "")]
+                all_p = list(_pool.values())
+            if u.path == "/status":
+                self._json({"status": "ok", "total": len(all_p),
+                            "verified": len(verified),
+                            "updated": int(time.time())})
+            elif u.path == "/socks5.txt":
+                limit = int(q.get("limit", ["50"])[0])
+                out = [p["proxy"] for p in verified][:limit]
+                self._txt("\n".join(out) + ("\n" if out else ""))
+            elif u.path == "/socks5.json":
+                limit = int(q.get("limit", ["100"])[0])
+                self._json({"status": "ok", "count": len(verified[:limit]),
+                            "proxies": verified[:limit]})
+            elif u.path == "/health":
+                self._json({"status": "ok", "verified": len(verified)})
+            else:
+                self._json({"error": "not found",
+                            "routes": ["/status", "/socks5.txt", "/socks5.json", "/health"]}, 404)
+
+    def _api_loop():
+        port = int(os.environ.get("API_PORT", "8904"))
+        srv = ThreadingHTTPServer(("0.0.0.0", port), PoolAPI)
+        print(f"[pool] API на :{port} (только валидные прокси)", file=sys.stderr, flush=True)
+        srv.serve_forever()
+except Exception as _e:
+    def _api_loop():
+        print(f"[pool] API не запущен: {_e}", file=sys.stderr, flush=True)
+
+
 def main():
+    threading.Thread(target=_api_loop, daemon=True).start()
     threads = [threading.Thread(target=fetch_loop, daemon=True)]
     for _ in range(int(os.environ.get("WORKERS", "100"))):
         threads.append(threading.Thread(target=worker_loop, daemon=True))

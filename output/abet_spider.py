@@ -21,6 +21,7 @@ FLAG_SQLI = "--sqli" in sys.argv
 FLAG_XSS = "--xss" in sys.argv
 FLAG_KIRPICH = "--kirpich" in sys.argv
 FLAG_DOWNLOAD = "--download" in sys.argv
+FLAG_ALIVE = "--alive" in sys.argv
 
 LFI_NAMES = ("file", "path", "page", "template", "doc", "include", "lang", "dir", "folder", "style", "theme", "load", "read", "url", "filename", "filepath")
 LFI_PAYLOADS = (
@@ -98,19 +99,29 @@ PROXIES = [
 ]
 
 def _fresh_proxies():
-    """Свежие SOCKS5 из пула (ротатор уже перебирает мёртвых), до 8 штук."""
+    """Свежие ВАЛИДНЫЕ прокси строго через API пула (не из файла!).
+    API отдаёт только проверенные (rtt<900). Дополнительно валидируем каждым CONNECT."""
+    import socket
     try:
-        with open("/root/office/container/pool/output/socks5_pool.json") as f:
-            data = json.load(f)
-        out = []
-        for p in data.get("proxies", []):
-            if p.get("alive") and p.get("proto") == "socks5" and ":" in p.get("proxy", ""):
-                out.append({"http": "socks5h://" + p["proxy"], "https": "socks5h://" + p["proxy"]})
-            if len(out) >= 8:
-                break
-        return out
+        r = requests.get("http://127.0.0.1:8912/socks5.txt?limit=40", timeout=8)
+        cands = [l.strip() for l in r.text.splitlines() if ":" in l]
     except Exception:
-        return []
+        cands = []
+    out = []
+    for c in cands[:12]:
+        # валидация прокси ПЕРЕД добавлением пауку (CONNECT к 8.8.8.8:53)
+        try:
+            h, p = c.rsplit(":", 1)
+            import socks as _socks
+            s = _socks.socksocket()
+            s.set_proxy(_socks.SOCKS5, h, int(p))
+            s.settimeout(6)
+            s.connect(("8.8.8.8", 53))
+            s.close()
+            out.append({"http": "socks5h://" + c, "https": "socks5h://" + c})
+        except Exception:
+            continue
+    return out
 
 def _refresh_proxies():
     global PROXIES
@@ -576,6 +587,42 @@ def _is_data_candidate(url, content_type, size, body_head):
     return False
 
 
+
+def run_alive():
+    """Проверка доступности хостов через прокси-ротатор. Вывод: жив/мёртв/ошибка."""
+    target_name = _target_name()
+    out = f"/root/office/output/{target_name}_alive.txt"
+    results = []
+    def _one(u):
+        for _ in range(4):
+            try:
+                r = requests.get(u, proxies=next_proxy(), headers={"User-Agent": UA,
+                    "Accept": "*/*", "Accept-Language": "en-US,en;q=0.9"},
+                    verify=False, timeout=15, allow_redirects=True, stream=True)
+                st = r.status_code
+                r.close()
+                # 1xx-4xx = сайт существует (ответ сервера); 0 = нет соединения
+                if st:
+                    return (u, st, 0)
+            except Exception:
+                continue
+        return (u, 0, 0)
+    print(f"[alive] проверяю {len(HOSTS)} хостов через прокси-ротатор...", flush=True)
+    with cf.ThreadPoolExecutor(max_workers=12) as ex:
+        for u, code, size in ex.map(_one, [f"https://{h}/" for h in HOSTS]):
+            status = "ЖИВ" if code and code < 500 else ("МЁРТВ" if code == 0 else f"ERR{code}")
+            results.append({"url": u, "code": code, "size": size, "status": status})
+            print(f"{status:6} {code} {size:>8} {u}", flush=True)
+    with open(out, "w") as f:
+        for r in results:
+            f.write(f"{r['status']}\t{r['code']}\t{r['url']}\n")
+    alive = [r for r in results if r["code"] and r["code"] < 400]
+    dead = [r for r in results if not r["code"]]
+    errs = [r for r in results if r["code"] and r["code"] >= 400]
+    print(f"\n[alive] ИТОГО: {len(results)} | ЖИВЫХ: {len(alive)} | МЁРТВЫХ: {len(dead)} | ОШИБКИ: {len(errs)}", flush=True)
+    print(f"[alive] результат: {out}", flush=True)
+
+
 def run_download():
     import shutil
     target_name = _target_name()
@@ -680,7 +727,9 @@ def _download_one(url, base_dir):
     return (None, 0)
 
 if __name__ == "__main__":
-    if FLAG_DOWNLOAD:
+    if FLAG_ALIVE:
+        run_alive()
+    elif FLAG_DOWNLOAD:
         run_download()
     else:
         main()
