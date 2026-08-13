@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+
+    <!-- Meta data -->
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta content="ABET Global" name="description">
+    <meta content="ABET Global" name="author">
+    <meta name="keywords" content="financial markets, Brokerage, Broker, trading, forex, crypto" />
+
+    <!-- Title -->
+    <title>ABET Global</title>
+
+    <!--Favicon -->
+    <link rel="icon" href="../images/brand/favicon.ico" type="image/x-icon" />
+
+    <!-- Bootstrap css -->
+    <link href="../plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+    <!-- Style css -->
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/boxed.css" rel="stylesheet" />
+    <link href="../css/dark.css" rel="stylesheet" />
+    <link href="../css/skin-modes.css" rel="stylesheet" />
+
+    <!-- Animate css -->
+    <link href="../css/animated.css" rel="stylesheet" />
+
+    <!---Icons css-->
+    <link href="../css/icons.css" rel="stylesheet" />
+
+    <!-- Select2 css -->
+    <link href="../plugins/select2/select2.min.css" rel="stylesheet" />
+
+    <!-- P-scroll bar css-->
+    <link href="../plugins/p-scrollbar/p-scrollbar.css" rel="stylesheet" />
+    <link href="../css/custom.css" rel="stylesheet" />
+    <!-- Jquery js-->
+    <script src="../plugins/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap js-->
+    <script src="../plugins/bootstrap/js/popper.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Select2 js -->
+    <script src="../plugins/select2/select2.full.min.js"></script>
+
+    <!-- P-scroll js-->
+    <script src="../plugins/p-scrollbar/p-scrollbar.js"></script>
+
+    <script src="../js/select2.js"></script>
+
+    <!-- Custom js-->
+    <script src="../js/custom.js"></script>
+
+    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="/css/sweetalert.js"></script>
+
+    <link rel="stylesheet" href="../plugins/notify/css/notifIt.css">
+
+    <script src="../plugins/notify/js/notifIt.js"></script>
+
+</head>
+
+<body class="">
+    <style>
+        
+        .shadow-cs
+        {
+            display:none;
+        }
+
+        @media screen and (min-width: 600px) {
+           .shadow-cs {
+            position: fixed;
+            left: 0;
+            padding: 20px;
+            z-index: 1;
+            /*background: #000000a6;*/
+            /*background: url("../images/abetLoginLeft.png");*/
+            height: 100%;
+            width: 39%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: 0;
+        }
+
+        .shadow-cs .inner-wrp .logo{
+            margin: 0 auto;
+            display: table;
+            margin-bottom: 26px;
+        }
+
+        .shadow-cs .inner-wrp .tagline {
+            color: #fff;
+            font-size: 18px;
+            max-width: 200px;
+            text-align: center;
+            font-weight: 600;
+        }
+        }
+
+        .card{
+	
+  box-sizing: border-box;
+  color:white;
+  background: rgb(0 0 0 / 0%);
+  border-radius: 0.625rem;
+	}
+	
+	.bgColorLogo{
+		background:#8b0000 !important;
+	}
+	.ColorLogo{
+		color:#ffffff !important;
+	}
+
+    .login-bg1
+    {
+        background: url(../images/photos/login1.jpg);
+    }
+
+    .login-bg1::before{
+        background:rgb(0 0 2 / 85%);
+    }
+    </style>
+
+    <div id="global-loader">
+        <img src="../images/svgs/loader.svg" alt="loader">
+    </div>
+    <div class="page login-bg1">
+        <div class="page-single">
+            <div class="container">
+    <div class="row">
+        <div class="col mx-auto">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-4 col-xxl-4">
+                    <div class="card my-5">
+                        <div class="p-4 pt-6 text-center">
+                            <img class="logo" src="../images/brand/logo-white.png" alt="loader" style="background: #b51a1d;padding: 0 20px;margin-bottom: 21px">
+                            <br />
+                            <h1 class="mb-2 ColorLogo">Login</h1>
+                            <p class="text-muted ColorLogo">Access your account</p>
+                        </div>
+                        <form class="card-body pt-3" id="login" name="login" data-ajax-begin="onBegin" data-ajax-failure="onFailed" data-ajax-success="onSuccess" method="post" data-ajax="true" action="/">
+                            <div class="form-group">
+                                <label class="form-label ColorLogo">Email</label>
+                                <div class="input-group mb-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text bgColorLogo" style="border:solid 1px #8b0000;color:white;">
+                                            <i class="fe fe-mail" aria-hidden="true"></i>
+                                        </span>
+                                        <input class="form-control" placeholder="Email" required="required" type="email" name="Email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label ColorLogo">Password</label>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text bgColorLogo" style="border:solid 1px #8b0000;color:white;">
+                                        <i class="fe fe-lock" aria-hidden="true"></i>
+                                    </span>
+                                    <input class="form-control" type="password" id="password" placeholder="Password" required="required" name="Password">
+                                    <span class="input-group-append">
+                                        <a class="btn btn-primary" id="show_password" onclick="ShowPassword();">
+                                            <i class="fa fa-eye-slash" data-toggle="tooltip" title="" data-original-title="fa fa-eye-slash"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1">
+                                    <span class="custom-control-label ColorLogo">Remember me</span>
+                                </label>
+                            </div>
+                            <div class="submit">
+                                <button type="submit" id="login-submit" class="btn btn-primary btn-block"><span>Login</span></button>
+                            </div>
+                            <div class="text-center mt-3">
+                                <p class="mb-2"><a class="text-primary ms-1 ColorLogo" href="/account/forgotpassword">Forgot Password</a></p>
+                                <p class="text-dark mb-0 ColorLogo">Don't have account ? <a class="text-primary ms-1 ColorLogo" href="/account/register">Register</a></p>
+                            </div>
+                        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kh1x8Mj-ThFtqfITcJLQRlCp48rn-aUJ-aztVhyUIKQWUElEsGJtMNO5F1YMvBDTuZ7zt7lFTUNlaFMfHdm6BJ84ZiLH7o8wKNz_HMRBRl-4P6dkzA8R5VRhunKUF-bgdXwctuy3TOLu_HfuDmPNfI" /></form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+    var onSuccess = function (response) {
+        $("#login-submit").removeClass("btn-loading");
+        if (response.response.responseCode == 0) {
+
+            window.location.href = '/dashboard/index'
+        }
+        else {
+            Swal.fire({
+                title: 'Oops...',
+                text: response.response.responseMessage,
+                icon: "error",
+                buttonsStyling: !1,
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+        }
+
+    };
+
+    var onFailed = function (response) {
+        $("#login-submit").removeClass("btn-loading");
+        Swal.fire({
+            title: 'Oops...',
+            text: response.response.responseMessage,
+            icon: "error",
+            buttonsStyling: !1,
+            confirmButtonText: "Ok",
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
+        });
+    };
+
+    var onBegin = function (response) {
+        $("#login-submit").addClass("btn-loading");
+    };
+
+    function ShowPassword() {
+        var type = $("#password").attr("type");
+        if (type == 'password') {
+            $("#password").attr("type", "text");
+            $("#show_password i").removeClass("fa-eye-slash");
+            $("#show_password i").addClass("fa-eye");
+        } else {
+            $("#show_password i").addClass("fa-eye-slash");
+            $("#show_password i").removeClass("fa-eye");
+            $("#password").attr("type", "password");
+        }
+    }
+
+</script>
+        </div>
+    </div>
+
+</body>
+</html>

