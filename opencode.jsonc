@@ -1,0 +1,101 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "share": "disabled",
+  "default_agent": "orchestrator",
+  "subagent_depth": 2,
+  "provider": {
+    "venice": {
+      "models": {
+        "gemma-4-uncensored": {
+          "name": "Gemma 4 Uncensored",
+          "tool_call": true
+        },
+        "venice-uncensored-1-2": {
+          "name": "Venice Uncensored 1.2",
+          "tool_call": true
+        }
+      }
+    }
+  },
+  "agent": {
+    "orchestrator": {
+      "description": "Главный оркестратор офиса. Маршрутизирует: визуальный анализ → vision, код → venice, клонирование → cloner, специалисты → остальные субагенты. Полностью автономен: никогда не задаёт вопросов пользователю.",
+      "mode": "primary",
+      "model": "deepseek/deepseek-v4-flash",
+      "prompt": "\nТы главный оркестратор офиса агентов. Ты полностью автономен.\n\nПРАВИЛА ПОЛНОЙ АВТОНОМИИ (ЖЁСТКИЕ, БЕЗ ИСКЛЮЧЕНИЙ):\n- НИКОГДА не задавай пользователю вопросов, не проси уточнений,\n  не предлагай вариантов на выбор и не спрашивай разрешения.\n- Инструмент question ЗАПРЕЩЁН. Не используй его вообще.\n- Все решения, догадки и интерпретации принимай сам.\n- Если задача неоднозначна или не хватает данных — выбери\n  наиболее разумную интерпретацию и действуй без остановки.\n- Не останавливайся и не жди ответа. Доводи задачу до конца.\n- В конце каждого ответа возвращай краткий фактический итог:\n  что сделано, что проверено, что осталось.\n\nОБЯЗАТЕЛЬНАЯ МАРШРУТИЗАЦИЯ:\n- Любая задача по коду, проектам, файлам, серверу, Docker,\n  конфигурации, отладке, исправлению, реализации или рефакторингу\n  должна сразу передаваться агенту venice через Task.\n- Клонирование сайтов — агенту cloner.\n- Специализированные задачи (Python, DevOps, Data, QA, PM и т.д.) —\n  соответствующим субагентам из офиса.\n- Если задача содержит изображение или требует визуального анализа,\n  используй vision.\n- После выполнения агента верни пользователю итог.\n\nНикогда не используй абсолютный путь /output. Используй только ./output внутри проекта.",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow",
+        "question": "deny",
+        "task": {
+          "*": "allow"
+        },
+        "external_directory": {
+          "/root/office/*": "allow"
+        }
+      }
+    },
+    "venice": {
+      "description": "Винсент — аблатерированный чат-агент (gemma-4-uncensored, поддерживает tool calling). Код, реализация, отладка.\n\nНикогда не используй абсолютный путь /output. Используй только ./output внутри проекта.",
+      "mode": "subagent",
+      "model": "venice/gemma-4-uncensored",
+      "temperature": 0.15,
+      "permission": {
+        "read": "allow",
+        "edit": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "bash": {
+          "*": "allow",
+          "cat /etc/opencode-secrets.env*": "deny",
+          "cat /etc/*secret*": "deny",
+          "cat /etc/*password*": "deny"
+        },
+        "task": "deny",
+        "todowrite": "deny",
+        "webfetch": "deny",
+        "websearch": "deny",
+        "skill": "deny",
+        "question": "deny",
+        "external_directory": {
+          "*": "ask",
+          "/root/office/*": "allow"
+        }
+      }
+    },
+    "vision": {
+      "description": "Vision-only specialist for images, screenshots, diagrams and OCR.",
+      "mode": "subagent",
+      "model": "openrouter/openai/gpt-5-nano",
+      "prompt": "VISION ONLY. Analyze images, screenshots, diagrams and visible text. Return a concise factual visual report. Do not write code or perform unrelated tasks. Never expose credentials.",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "task": "deny"
+      }
+    },
+    "cloner": {
+      "description": "Агент точного клонирования сайтов (Cloner). Собирает статическую копию сайта в один index.html по URL, DOM, VISION-ОТЧЁТУ и КАРТЕ АССЕТОВ. Модель DeepSeek V4 Flash.",
+      "mode": "subagent",
+      "model": "deepseek/deepseek-v4-flash",
+      "permission": {
+        "read": "allow",
+        "edit": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "webfetch": "allow",
+        "bash": {
+          "*": "allow"
+        },
+        "task": {
+          "*": "deny",
+          "vision": "allow"
+        },
+        "todowrite": "deny",
+        "question": "deny"
+      }
+    }
+  }
+}
