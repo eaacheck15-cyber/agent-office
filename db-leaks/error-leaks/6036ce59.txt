@@ -1,11 +1,11 @@
 URL: https://forum.image-line.com/viewtopic.php?t=106611
 
+=== СТЕКИ ===
+fatal error
+fatal error
+fatal error
+fatal error
+fatal error
+
+=== СЕРВЕРНЫЕ ПУТИ ===
 /var/www/vhosts/4772.linux4.testsider.dk/httpdocs/documents/search.php
----
-/search.php?search_id=unanswered&amp;sid=5d751b0fa5c5058decfcf6a10bb17d14
----
-/app.php/feed?sid=5d751b0fa5c5058decfcf6a10bb17d14
----
-/cart.php
----
-//support.image-line.com/api.php

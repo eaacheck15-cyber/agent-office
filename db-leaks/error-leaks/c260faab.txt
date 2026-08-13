@@ -1,8 +1,10 @@
 URL: http://www.mikeseeman.com/index.php?id=blog/index
 
-Fatal error:  Uncaught Error: Call to undefined function mysql_connect() in /home/ngakeruc/public_html/blog/index.php:31
-Stack trace:
-#0 /home/ngakeruc/public_html/index.php(19): include()
-#1 {main
----
-/home/ngakeruc/public_html/blog/index.php on line
+=== СТЕКИ ===
+Fatal error
+Uncaught Error: Call to undefined function mysql_connect() in /home/ngakeruc/public_html
+
+=== СЕРВЕРНЫЕ ПУТИ ===
+/home/ngakeruc/public_html/blog/index.php
+/home/ngakeruc/public_html/blog/index.php:31
+/home/ngakeruc/public_html/index.php(19):
