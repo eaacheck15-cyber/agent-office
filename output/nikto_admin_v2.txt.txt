@@ -21,3 +21,6 @@
 + GET /.sh_history: A user's home directory may be set to the web root, the shell history was retrieved. This should not be accessible via the web.
 + GET /..%252f..%252f..%252f..%252f..%252f../windows/repair/sam: Retrieved x-aspnet-version header: 4.0.30319.
 + GET /: Server banner changed from 'Microsoft-IIS/10.0' to 'Kestrel'.
++ GET /JAMonAdmin.jsp: JAMon - Java Application Monitor Admin interface identified. Versions 2.7 and earlier contain XSS vulnerabilities. See: CVE-2013-6235: 
++ GET /: X-Frame-Options header is deprecated and was replaced with the Content-Security-Policy HTTP header with the frame-ancestors directive. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options: 
++ GET /: The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type. See: https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/: 
