@@ -112,6 +112,36 @@ uat.abetglobal.com
 
 ---
 
+
+## 7. 🔓 CRM АДМИНКА (НОВАЯ НАХОДКА — ПРОРЫВ)
+
+### testadmin.abetglobal.com — «Broker CRM - Admin Panel» (ЖИВАЯ)
+- **Открытая CRM-админка форекс-брокера**, React/Vite SPA
+- Сервер: **Microsoft-IIS/10.0 + ASP.NET** (X-Powered-By: ASP.NET)
+- Адрес отдаёт контент, авторизация через API
+
+### API (250 эндпоинтов извлечено из JS-бандла /assets/index-1ywK9b9i.js)
+- Бэкенд: `/api/AdminManagement/*` → **401 UnAuthorized** (API существует, защищён токеном)
+- Формат ответа 401: `{"response":{"responseCode":1,"responseMessage":"UnAuthorized - Token Expired"}}`
+- **Login**: `POST /api/Accounts/Login` → принимает `{"email","password"}`
+  - неверные креды → `Invalid Email or Password` (эндпоинт активен)
+- Многие GET-роуты → **405** (существуют, ждут POST)
+
+### Извлечённые категории эндпоинтов (250 шт.)
+- `/AdminManagement/*` — Users, Roles, BackendMenus, CreateUser, ResetPassword
+- `/Clients/*` — ClientList, ClientDetailByClientId, ClientDeposit, ClientWithdrawal,
+  GetClientWallets, ClientCreditIn/Out, ChangeAccountPassword, DepositHistory
+- `/Affiliate/*` — GetAffiliate, CreateAffiliateReward, LoyaltyEvents, RewardsList
+- Также: KYC, Wallet, Withdrawal, Report, Payment, Transaction, Order, AccountType
+
+### Ключевые зоны риска (для агентов)
+- [ ] Подбор/восстановление пароля (ResetPassword эндпоинт)
+- [ ] Проверить все 250 эндпоинтов на открытый доступ (IDOR/авторизация)
+- [ ] ClientWithdrawal / ClientDeposit — финансовые операции
+- [ ] GetClientWallets — кошельки клиентов (база жертв)
+- [ ] ChangeAccountPassword — смена паролей без валидации?
+- [ ] SignalR (в бандле) — realtime-каналы, проверить hub-эндпоинты
+
 ## ⚠️ ПРАВИЛА
 - Только авторизованный тест / анализ открытых данных. Scope: abetglobal.com + поддомены.
 - Все сетевые проверки — через SOCKS5-ротатор (127.0.0.1:1080) или прокси 193.41.115.31:8000.
