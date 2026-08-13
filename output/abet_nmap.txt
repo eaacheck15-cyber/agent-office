@@ -1,0 +1,16 @@
+# Nmap 7.94SVN scan initiated Thu Aug 13 05:18:54 2026 as: nmap -sV --top-ports 50 -Pn --host-timeout 60s -oN /root/office/output/abet_nmap.txt abetglobal.com
+Nmap scan report for abetglobal.com (108.181.154.20)
+Host is up (0.11s latency).
+rDNS record for 108.181.154.20: mail.bookandhost.in
+Not shown: 44 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+21/tcp  open  tcpwrapped
+53/tcp  open  tcpwrapped
+110/tcp open  tcpwrapped
+143/tcp open  tcpwrapped
+443/tcp open  tcpwrapped
+587/tcp open  smtp       MailEnable smptd 10.54--
+Service Info: Host: mail.abetglobal.com; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 13 05:19:12 2026 -- 1 IP address (1 host up) scanned in 17.66 seconds
