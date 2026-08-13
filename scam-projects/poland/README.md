@@ -52,3 +52,41 @@ QuoMarkets / FxGrow (офшорные лицензии)
 - [ ] Проверить партнёрскую программу QuoMarkets (механика пирамиды)
 - [ ] Проверить FxGrow и Purple Trading на скам-признаки
 - [ ] Собрать доказательства + тексты жалоб (KNF Польши, UOKiK, офшорные регуляторы)
+
+---
+
+## 🔍 QuoMarkets — ГЛУБОКИЙ РАЗБОР (2026-08-13)
+
+### Юридическая структура (лавина офшорных компаний)
+| Компания | Юрисдикция | Лицензия |
+|---|---|---|
+| Tradequomarkets Financial Services L.L.C | **Dubai, UAE** (SCA) | 20200000320 Cat.5 (только «консультации и интродукция» — НЕ брокерская!) |
+| Trade Quo Global Ltd | **Seychelles FSA** | SD140 |
+| Quo Markets LLC | **Saint Vincent (SVG)** | FSA 3171 LLC 2024 (SVG — не регулятор! просто регистрация) |
+| TQBG Ltd | **Cyprus** | HE438084 (зарегистрирован, НЕ лицензирован CySEC) |
+| Tradequo (PTY) Ltd | **ЮАР** | FSP 54827 |
+| TRADEQUOMARKETS LTD | **Dominica** | 2023/C0010-0001 (офшор без регуляции) |
+
+### Ключевые красные флаги
+1. **Dubai-лицензия SCA Cat.5** — «Financial Consultations and Introduction» — это НЕ лицензия брокера, а разрешение на маркетинг! Клиенты думают, что брокер «регулируемый», а он просто привлекает клиентов.
+2. **Saint Vincent (SVG) FSA 3171 LLC** — SVG вообще не выдаёт лицензий на форекс, это регистрация LLC. «FSA 3171 LLC 2024» — просто регистрационный номер компании.
+3. **Cyprus HE438084** — регистрационный номер компании, не CySEC-лицензия (маскировка под «кипрскую регулируемую»).
+4. **Dominica TRADEQUOMARKETS LTD** — офшор, нет реальной регуляции.
+5. **Trustpilot 5.0/4K отзывов** — «We don't fact-check reviews» — сомнительно (могут быть накручены).
+6. **WikiFX core score 7.27** — но есть exposure-отчёты о проблемах с выводом (slippage, задержки).
+7. **BrokerChooser: «not safe, not regulated by authority with strict rules»**.
+8. **naga.pl ловушка** — реферальный трафик на QuoMarkets (привлечение через трекер).
+
+### Механика
+```
+Дубайская «лицензия» SCA Cat.5 (маркетинг) + SVG/Dominica (офшор)
+→ реклама «regulated broker» + naga.pl реферальный трафик
+→ жертвы вносят депозит ($10+, «no commission», бонусы)
+→ вывод: «MIMO policy — только до суммы депозита», жалобы на slippage/задержки
+```
+
+### Доказательства (ссылки)
+- WikiFX: https://www.wikifx.com/en/dealer/2737536119.html
+- BrokerChooser: https://brokerchooser.com/safety/httpsquomarketscom-broker-safe-or-scam
+- Trustpilot: https://www.trustpilot.com/review/www.quomarkets.com
+- Myfxbook: https://www.myfxbook.com/reviews/brokers/quomarkets/3163748,1
