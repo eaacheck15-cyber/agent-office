@@ -223,15 +223,13 @@ def main():
     ]
     for t in threads:
         t.start()
-    # сид сразу в пул (уже валидированы ранее) — мгновенный старт
+    # сид: НЕ кладём в пул вслепую — отправляем в очередь на проверку (живые попадут в пул)
     with _lock:
         for p in _seed():
-            if p not in _pool:
-                h, po = p.rsplit(":", 1)
-                _pool[p] = {"proxy": p, "proto": "socks5", "rtt": 999,
-                            "alive": True, "checked": int(time.time()),
-                            "country": "", "cc": ""}
-    print(f"[pool] stream_pool started. seed={len(_seed())} pooled, persist={PERSIST_EVERY}s", file=sys.stderr, flush=True)
+            if p not in _pool and p not in _in_queue:
+                _queue.append(p)
+                _in_queue.add(p)
+    print(f"[pool] stream_pool started. seed queued={len(_seed())}, persist={PERSIST_EVERY}s", file=sys.stderr, flush=True)
     while True:
         time.sleep(60)
         with _lock:

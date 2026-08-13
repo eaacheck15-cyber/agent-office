@@ -33,13 +33,18 @@ def load_pool():
     try:
         with open(POOL_FILE) as f:
             data = json.load(f)
-        proxies = []
+        verified = []   # rtt реальный (проверены)
+        seeded = []     # rtt 999+ (сид, не проверены)
         for p in data.get("proxies", []):
             if p.get("alive") and p.get("proto") == "socks5":
-                proxies.append(p.get("proxy"))
-        if proxies:
-            _pool = proxies
-            print(f"[rotator] pool reloaded: {len(_pool)} socks5 proxies", flush=True)
+                rtt = p.get("rtt", 0) or 0
+                if rtt and rtt < 900:
+                    verified.append(p.get("proxy"))
+                else:
+                    seeded.append(p.get("proxy"))
+        # проверенные вперёд, сид — в конец очереди
+        _pool = verified + seeded
+        print(f"[rotator] pool reloaded: {len(_pool)} ({len(verified)} verified + {len(seeded)} seed)", flush=True)
     except Exception as e:
         print(f"[rotator] pool load error: {e}", flush=True)
 

@@ -1,0 +1,10 @@
+- Nikto v2.6.0/
++ Target Host: testadmin.abetglobal.com
++ Target Port: 443
++ GET /: Retrieved x-powered-by header: ASP.NET.
++ SSL Info:           Subject:  /CN=testadmin.abetglobal.com
+                      CN:       testadmin.abetglobal.com
+                      SAN:      testadmin.abetglobal.com
+                      Ciphers:  TLS_AES_256_GCM_SHA384
+                      Issuer:   /C=US/ST=Texas/L=Dallas/O=None, LLC/OU=NA/CN=None/emailAddress=none
++ GET /: Server banner changed from 'Microsoft-IIS/10.0' to 'Apache-AdvancedExtranetServer/2.0.44 (Mandrake Linux/11mdk) mod_perl/1.99_08 Perl/v5.8.0 mod_ssl/2.0.44 OpenSSL/0.9.7a PHP/4.3.1 mod_jk2/2.0.0'.
