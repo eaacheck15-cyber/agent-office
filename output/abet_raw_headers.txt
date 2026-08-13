@@ -98,3 +98,125 @@ Date: Thu, 13 Aug 2026 05:03:58 GMT
 
 
 ===== secure.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+HTTP/1.1 200 OK
+Content-Length: 897
+Content-Type: text/html
+Last-Modified: Sun, 09 Aug 2026 10:59:28 GMT
+Accept-Ranges: bytes
+ETag: "878b4226ee27dd1:0"
+Server: Microsoft-IIS/10.0
+X-Powered-By: ASP.NET
+Date: Thu, 13 Aug 2026 05:04:01 GMT
+
+
+===== www.secure.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+HTTP/1.1 200 OK
+Content-Length: 897
+Content-Type: text/html
+Last-Modified: Sun, 09 Aug 2026 10:59:28 GMT
+Accept-Ranges: bytes
+ETag: "878b4226ee27dd1:0"
+Server: Microsoft-IIS/10.0
+X-Powered-By: ASP.NET
+Date: Thu, 13 Aug 2026 05:04:02 GMT
+
+
+===== staging.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+HTTP/1.1 200 OK
+Content-Length: 897
+Content-Type: text/html
+Last-Modified: Fri, 07 Aug 2026 13:04:14 GMT
+Accept-Ranges: bytes
+ETag: "3778713f6d26dd1:0"
+Server: Microsoft-IIS/10.0
+X-Powered-By: ASP.NET
+Date: Thu, 13 Aug 2026 05:04:04 GMT
+
+
+===== testadmin.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+
+===== testmt5.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+
+===== uat.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+
+===== affiliate.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+HTTP/1.1 404 Not Found
+Content-Length: 315
+Content-Type: text/html; charset=us-ascii
+Server: Microsoft-HTTPAPI/2.0
+Date: Thu, 13 Aug 2026 05:04:12 GMT
+Connection: close
+
+
+===== mail.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+HTTP/1.1 404 Not Found
+Content-Length: 315
+Content-Type: text/html; charset=us-ascii
+Server: Microsoft-HTTPAPI/2.0
+Date: Thu, 13 Aug 2026 05:04:13 GMT
+Connection: close
+
+
+===== metaapi.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+HTTP/1.1 404 Not Found
+Content-Length: 315
+Content-Type: text/html; charset=us-ascii
+Server: Microsoft-HTTPAPI/2.0
+Date: Thu, 13 Aug 2026 05:04:15 GMT
+Connection: close
+
+
+===== mt5api.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+HTTP/1.1 404 Not Found
+Content-Length: 315
+Content-Type: text/html; charset=us-ascii
+Server: Microsoft-HTTPAPI/2.0
+Date: Thu, 13 Aug 2026 05:04:16 GMT
+Connection: close
+
+
+===== cryptotest.abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+HTTP/1.1 404 Not Found
+Content-Length: 315
+Content-Type: text/html; charset=us-ascii
+Server: Microsoft-HTTPAPI/2.0
+Date: Thu, 13 Aug 2026 05:04:19 GMT
+Connection: close
+
+
+===== abetglobal.com =====
+HTTP/1.1 200 Connection Established
+
+HTTP/1.1 200 OK
+Content-Length: 4146
+Content-Type: text/html
+Last-Modified: Sun, 26 Apr 2026 12:16:37 GMT
+Accept-Ranges: bytes
+ETag: "e14e58776d5dc1:0"
+Server: Microsoft-IIS/10.0
+X-Powered-By: ASP.NET
+Date: Thu, 13 Aug 2026 05:04:20 GMT
+
+

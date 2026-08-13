@@ -90,3 +90,38 @@ QuoMarkets / FxGrow (офшорные лицензии)
 - BrokerChooser: https://brokerchooser.com/safety/httpsquomarketscom-broker-safe-or-scam
 - Trustpilot: https://www.trustpilot.com/review/www.quomarkets.com
 - Myfxbook: https://www.myfxbook.com/reviews/brokers/quomarkets/3163748,1
+
+---
+
+## ✅ ЖИВЫЕ СКАМ-ПЛОЩАДКИ (проверено 2026-08-13, через прокси)
+
+### 1. zForex (zforex.com) — ЖИВОЙ (200)
+| Факт | Данные |
+|---|---|
+| Сайт | https://zforex.com (200, 80 КБ) |
+| «Лицензия» | **MISA, Saint Vincent and the Grenadines** (SVG — НЕ форекс-регулятор, регистрация LLC) |
+| Бонусы | **30% первый депозит, 20% ре-депозит** (приманки) |
+| Партнёрка | «Become an IB / zForex Partners» |
+| Домен | 2006-06-16, жив до 2027-06-16 |
+
+### 2. QuoMarkets (quomarkets.com) — ЖИВОЙ (200)
+(см. раздел выше: 6 офшорных компаний, Dubai SCA Cat.5 маркетинговая, SVG 3171 LLC, Dominica, Cyprus не-CySEC, MIMO-вывод)
+
+### 3. naga.pl — ЖИВАЯ РЕФЕРАЛЬНАЯ ЛОВУШКА (200)
+- Редирект на quomarkets + трекер am-track (track-код **обновлён**: 51640a295a5b5d5ad0f2ce3df1cc2132)
+- Ловушка активно эксплуатируется (код меняется = трафик идёт)
+
+### 4. purple-trading.pl — живой (301 → purple-trading.com/pl) — легальный брокер (проверен)
+
+### Отсеяны (не скам-площадки, живые но не подходят)
+- forexrev.com — обзорник брокеров (Reviews & Scam Alerts)
+- offbeatforex.com, tradingpedia.com, fxrecap.com, trading.com — обзорники/агрегаторы бонусов
+- test4profit.pl — блог трейдера
+- fxgrow.pl → fxgrow.com — международный брокер (домен 2009)
+
+## 📋 ИТОГ: рабочие скам-элементы в зоне Польши
+| Площадка | Статус | Роль |
+|---|---|---|
+| zForex (zforex.com) | ЖИВОЙ | офшор-брокер SVG, бонусы 30% |
+| QuoMarkets (quomarkets.com) | ЖИВОЙ | офшор-брокер, 6 юрлиц, MIMO-вывод |
+| naga.pl | ЖИВОЙ | реферальная ловушка → QuoMarkets |
