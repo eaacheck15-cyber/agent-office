@@ -20,3 +20,4 @@
 + GET /.bash_history: A user's home directory may be set to the web root, the shell history was retrieved. This should not be accessible via the web.
 + GET /.sh_history: A user's home directory may be set to the web root, the shell history was retrieved. This should not be accessible via the web.
 + GET /..%252f..%252f..%252f..%252f..%252f../windows/repair/sam: Retrieved x-aspnet-version header: 4.0.30319.
++ GET /: Server banner changed from 'Microsoft-IIS/10.0' to 'Kestrel'.
