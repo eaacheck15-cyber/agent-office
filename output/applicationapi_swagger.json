@@ -1,0 +1,1841 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BrokerAPI",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Account/Login": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Account/Signup": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Users"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Users"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Users"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Generic/GetCurrencies": {
+      "get": {
+        "tags": [
+          "Generic"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Generic/GetCurrencyById": {
+      "get": {
+        "tags": [
+          "Generic"
+        ],
+        "parameters": [
+          {
+            "name": "CurrencyId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Generic/GetAccountTypes": {
+      "get": {
+        "tags": [
+          "Generic"
+        ],
+        "parameters": [
+          {
+            "name": "Type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Generic/GetLeveragesByAccountId": {
+      "get": {
+        "tags": [
+          "Generic"
+        ],
+        "parameters": [
+          {
+            "name": "AccountTypeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Payment/CryptoDepositResponse": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CryptoPaymentResponseDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CryptoPaymentResponseDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CryptoPaymentResponseDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/UpdateUserInfoByUserId": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomUser"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/GetUserByUserId": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/GetAllMembers": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataTableAjaxPostModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataTableAjaxPostModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataTableAjaxPostModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountLeverages": {
+        "type": "object",
+        "properties": {
+          "accountLeverageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "accountTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "leverageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "accountType": {
+            "$ref": "#/components/schemas/AccountTypes"
+          },
+          "leverage": {
+            "$ref": "#/components/schemas/Leverages"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountTypes": {
+        "type": "object",
+        "properties": {
+          "accountTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "accountType": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountGroupType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "accountGroup": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAccountLimitRequired": {
+            "type": "boolean"
+          },
+          "minAccountLimit": {
+            "type": "number",
+            "format": "double"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "accountLeverages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountLeverages"
+            },
+            "nullable": true
+          },
+          "userAccounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserAccounts"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffiliateRequests": {
+        "type": "object",
+        "properties": {
+          "affiliateRequestId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastCompanyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalClients": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalTradingExp": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "refferLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "loginId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/Users"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AffiliateWallet": {
+        "type": "object",
+        "properties": {
+          "affiliateWalletId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "walletBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updateDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/Users"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BackendMenusDTO": {
+        "type": "object",
+        "properties": {
+          "menuID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "menuName": {
+            "type": "string",
+            "nullable": true
+          },
+          "menuURL": {
+            "type": "string",
+            "nullable": true
+          },
+          "menuICON": {
+            "type": "string",
+            "nullable": true
+          },
+          "menuPosition": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "menuSelectedPermission": {
+            "type": "string",
+            "nullable": true
+          },
+          "menuPermission": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MenuPermissionDTO"
+            },
+            "nullable": true
+          },
+          "subMenus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BackendSubMenuDetailsDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BackendSubMenuDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "subMenuID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subMenuName": {
+            "type": "string",
+            "nullable": true
+          },
+          "subMenuURL": {
+            "type": "string",
+            "nullable": true
+          },
+          "subMenuICON": {
+            "type": "string",
+            "nullable": true
+          },
+          "subMenuPosition": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subMenuSelectedPermission": {
+            "type": "string",
+            "nullable": true
+          },
+          "menuPermission": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MenuPermissionDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Column": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "searchable": {
+            "nullable": true
+          },
+          "orderable": {
+            "nullable": true
+          },
+          "search": {
+            "$ref": "#/components/schemas/Search"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Countries": {
+        "type": "object",
+        "properties": {
+          "countryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryName": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode3": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryNumCode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryPhoneCode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryCurrencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CryptoPaymentResponseDTO": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactionAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "netAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "transactionCurrency": {
+            "type": "string",
+            "nullable": true
+          },
+          "processingFee": {
+            "type": "number",
+            "format": "double"
+          },
+          "depositAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "finalAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "finalCurrency": {
+            "type": "string",
+            "nullable": true
+          },
+          "conversionRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Currencies": {
+        "type": "object",
+        "properties": {
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          },
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userAccounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserAccounts"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomUser": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "profileImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "roleId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "emailVerification": {
+            "type": "boolean"
+          },
+          "addressVerification": {
+            "type": "boolean"
+          },
+          "accountVerification": {
+            "type": "boolean"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "verificationPercentage": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "newPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryName": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isProfileCompleted": {
+            "type": "boolean"
+          },
+          "isBasicInfo": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "nationalIdentityOrPassport": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiryMonth": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "expiryYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "userPermissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BackendMenusDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DataTableAjaxPostModel": {
+        "type": "object",
+        "properties": {
+          "draw": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "start": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Column"
+            },
+            "nullable": true
+          },
+          "search": {
+            "$ref": "#/components/schemas/Search"
+          },
+          "order": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            },
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "countryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sortColumn": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DocumentTypes": {
+        "type": "object",
+        "properties": {
+          "documentTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "documentCategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "documentName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Leverages": {
+        "type": "object",
+        "properties": {
+          "leverageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "leverage": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "accountLeverages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountLeverages"
+            },
+            "nullable": true
+          },
+          "userAccounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserAccounts"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginDTO": {
+        "required": [
+          "emailAddress",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "emailAddress": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string",
+            "format": "password"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MenuPermissionDTO": {
+        "type": "object",
+        "properties": {
+          "subMenuPermissionID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subMenuPermissionName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isSelected": {
+            "type": "boolean"
+          },
+          "subMenuPermissionPosition": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "column": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dir": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Platforms": {
+        "type": "object",
+        "properties": {
+          "platformId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "platform": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverIP": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverPort": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverLoginID": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "demoServerIP": {
+            "type": "string",
+            "nullable": true
+          },
+          "demoServerPort": {
+            "type": "string",
+            "nullable": true
+          },
+          "demoLoginID": {
+            "type": "string",
+            "nullable": true
+          },
+          "demoServerPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "contestServerIP": {
+            "type": "string",
+            "nullable": true
+          },
+          "contestServerPort": {
+            "type": "string",
+            "nullable": true
+          },
+          "contestLoginID": {
+            "type": "string",
+            "nullable": true
+          },
+          "contestServerPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userAccounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserAccounts"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Roles": {
+        "type": "object",
+        "properties": {
+          "roleId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Search": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "regex": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserAccounts": {
+        "type": "object",
+        "properties": {
+          "userAccountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "accountCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "platformId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "leverageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "loginId": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "investorPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "promoCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "isPromoRecieved": {
+            "type": "boolean"
+          },
+          "user": {
+            "$ref": "#/components/schemas/Users"
+          },
+          "accountType": {
+            "$ref": "#/components/schemas/AccountTypes"
+          },
+          "platform": {
+            "$ref": "#/components/schemas/Platforms"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currencies"
+          },
+          "leverage": {
+            "$ref": "#/components/schemas/Leverages"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDocuments": {
+        "type": "object",
+        "properties": {
+          "userDocumentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "documentTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "documentStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/Users"
+          },
+          "documentType": {
+            "$ref": "#/components/schemas/DocumentTypes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserFunds": {
+        "type": "object",
+        "properties": {
+          "userFundId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paymentReferenceId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "walletCategoryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "walletId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userAccountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "bonusAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "fundType": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "fundProof": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "withdrawalDetails": {
+            "type": "string",
+            "nullable": true
+          },
+          "currencyRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "user": {
+            "$ref": "#/components/schemas/Users"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserWallets": {
+        "type": "object",
+        "properties": {
+          "walletId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "walletCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "walletBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/Users"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Users": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roleId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "company": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "confirmPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "docsStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailVerification": {
+            "type": "boolean"
+          },
+          "addressVerification": {
+            "type": "boolean"
+          },
+          "addressVerificationReview": {
+            "type": "boolean"
+          },
+          "accountVerification": {
+            "type": "boolean"
+          },
+          "accountVerificationReview": {
+            "type": "boolean"
+          },
+          "isVerified": {
+            "type": "boolean"
+          },
+          "isProfileCompleted": {
+            "type": "boolean"
+          },
+          "verificationPercentage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "isBasicInfo": {
+            "type": "boolean"
+          },
+          "nationalIdentityOrPassport": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiryMonth": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "expiryYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deletedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deletedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "parent": {
+            "$ref": "#/components/schemas/Users"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Roles"
+          },
+          "country": {
+            "$ref": "#/components/schemas/Countries"
+          },
+          "userDocuments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserDocuments"
+            },
+            "nullable": true
+          },
+          "userWallets": {
+            "$ref": "#/components/schemas/UserWallets"
+          },
+          "affiliateRequests": {
+            "$ref": "#/components/schemas/AffiliateRequests"
+          },
+          "affiliateWallet": {
+            "$ref": "#/components/schemas/AffiliateWallet"
+          },
+          "userFunds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserFunds"
+            },
+            "nullable": true
+          },
+          "userAccounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserAccounts"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

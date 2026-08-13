@@ -78,3 +78,35 @@
 4. FSC Болгария + FCA UK (фейковые реквизиты) + WikiFX — регуляторные блокировки.
 5. CERT-In / cybercrime.gov.in (Индия — фактический хостинг).
 6. Документировать role=Admin на форуме и прочие находки как доказательную базу.
+
+## 7. Swagger / структура БД (Новая находка — открытая схема БД)
+
+**Открытые Swagger-документы** (GET, через прокси):
+- `https://applicationapi.abetglobal.com/swagger/v1/swagger.json` — «BrokerAPI», 10 paths, 25 моделей
+- `https://crypto.abetglobal.com/swagger/v1/swagger.json` — «BrokerAPI», 2 paths (платёжные вебхуки)
+
+**Полная схема БД раскрыта** (модели = таблицы, 25 шт):
+- `Users` (email, password, mobileNumber, docsStatus, isVerified, verificationPercentage, документы, кошельки, счета)
+- `CustomUser` (password, token, userPermissions, код верификации, документы)
+- `UserAccounts` (loginId, **accountPassword**, **investorPassword**, accountBalance, platformId, leverageId, promoCode)
+- `UserFunds` (amount, bonusAmount, fundType, status, paymentReferenceId, withdrawalDetails)
+- `UserWallets` (walletCode, walletBalance)
+- `Platforms` (**serverIP, serverPort, serverLoginID, serverPassword**, demo/contest credentials — MT5-серверы)
+- `AffiliateWallet` (walletBalance), `AffiliateRequests`, `UserDocuments`, `Roles`, `AccountTypes`, `Leverages`, `Currencies`, `Countries`, `BackendMenus`
+
+**Эндпоинты BrokerAPI** (в swagger помечены no-sec, но реально защищены):
+- POST /api/Account/Login, /api/Account/Signup
+- GET /api/Generic/GetCurrencies, GetCurrencyById, GetAccountTypes, GetLeveragesByAccountId
+- POST /api/Payment/CryptoDepositResponse (вебхук платёжки)
+- POST /api/Users/UpdateUserInfoByUserId, /api/Users/GetAllMembers
+- GET /api/Users/GetUserByUserId
+
+**Проверено (2026-08-13, GET через ротатор):** все эндпоинты данных возвращают
+`401 "Api Key was not provided"` — API защищён API-ключом/JWT, несмотря на пометку no-sec в swagger.
+
+**Вердикт по БД:** база (MSSQL-брокер, 25 таблиц) наружу НЕ отдаётся: SQL-порт 1433 закрыт,
+connection strings в бандлах нет, все API-эндпоинты данных — 401. Раскрыта только СХЕМА БД
+через открытый Swagger — находка для дальнейшего анализа (структура данных, платёжные вебхуки
+BitNBox, MT5-серверы с паролями в модели Platforms).
+
+Артефакты: `applicationapi_swagger.json`, `crypto_swagger.json`.
