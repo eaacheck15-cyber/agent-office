@@ -1,0 +1,13 @@
+[
+ "/calculator",
+ "/cryptocurrency",
+ "/deposit-method",
+ "/ecn-account",
+ "/error",
+ "/hankox",
+ "/images/",
+ "/islamic-account",
+ "/pamm-mam",
+ "/stp-account",
+ "/white-label"
+]
