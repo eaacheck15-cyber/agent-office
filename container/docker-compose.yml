@@ -1,0 +1,30 @@
+services:
+  proxy-pool:
+    build: .
+    container_name: agent-office-proxy
+    restart: unless-stopped
+    # ЗАКРЫТЫЙ контейнер: нет сети хоста, нет прямого выхода в интернет.
+    # Изоляция: только нужный порт наружу (1080 для агентов офиса), остальное закрыто.
+    network_mode: bridge
+    ports:
+      - "127.0.0.1:1080:1080"   # SOCKS5-ротатор, только для localhost
+      - "127.0.0.1:8912:8904"   # API пула (статус/список), только для localhost
+    volumes:
+      - ./pool/output:/output   # кэш пула socks5_pool.json (свежие прокси)
+    environment:
+      - SOCKS_REFRESH_EVERY=600   # добыча пула каждые 10 минут
+      - POOL_RELOAD=60            # ротатор читает пул каждые 60 с
+      - MIN_RTT=600               # отсекать прокси медленнее 600 мс
+      - MAX_PROXY_FAILS=3         # бан прокси после 3 неудач подряд
+      - LISTEN_PORT=1080
+    read_only: false
+    cap_drop:
+      - ALL                      # без capability хоста
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp
+    # Строгая изоляция сети: default bridge, DNS только на прокси-трафик
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
