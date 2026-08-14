@@ -1,8 +1,0 @@
-[
- [
-  "/api.def.user.language.getLanguages",
-  "POST",
-  200,
-  "[{\"id\":34,\"shortName\":\"ar\",\"fullName\":\"\u0627\u0644\u0639\u0631\u0628\u064a\u0629\"},{\"id\":3,\"shortName\":\"zh_cn\",\"fullName\":\"\u4e2d\u6587\"},{\"id\":5,\"shortName\":\"vn\",\"fullName\":\"Ti\u1ebfng Vi\u1ec7t\"},{\"id\":"
- ]
-]
