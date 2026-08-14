@@ -1,0 +1,966 @@
+EARN
+
+LEARN
+
+ABOUT US
+
+FOR PARTNERS
+
+NEWSROOM
+
+HELP
+
+COMMUNITY
+
+LOGIN
+GET STARTED
+NODES & STAKING
+STAKING REWARDS
+
+We made cryptoearning simple. Leverage crypto staking to earn passive income. Make your crypto work for you.
+
+Trusted by 5,000,000 users worldwide
+
+GET STARTED
+DOWNLOAD PRESENTATION
+
+ENGLISH
+
+ENGLISH
+РУССКИЙ
+中國人
+DEUTSCH
+ESPAÑOL
+فارسی
+हिंदी
+ITALIANO
+TÜRKÇE
+السعودية
+FRANÇAIS
+日本語
+$244,960,816+
+
+Staked Value
+
+11635
+
+Validators Nodes
+
+99.5 %
+
+Uptime
+
++5534546
+
+Users
+
+29294
+
+RPC Endpoints
+
+CRYPTOCURRENCY
+
+ALL OF THE MOST POPULAR AND PROFITABLE CRYPTO IN YOUR HAND
+
+Check out our expanding portfolio of coins and highly profitable rewards. Pick, transfer it to your wallet and start earning staking interests today.
+
+ETHEREUM
+0.48% - 0.88% ROI Daily
+MARKET CAP
+$227,177,393,067
+DAILY VOL
+$6,929,436,220
+COSMOS
+0.47% - 0.62% ROI Daily
+MARKET CAP
+$788,369,516
+DAILY VOL
+$36,279,244
+POL
+0.51% - 0.87% ROI Daily
+MARKET CAP
+$790,179,889
+DAILY VOL
+$37,146,448
+CARDANO
+0.48% - 0.59% ROI Daily
+MARKET CAP
+$6,667,359,556
+DAILY VOL
+$196,694,926
+POLKADOT
+0.52% - 0.73% ROI Daily
+MARKET CAP
+$1,311,152,177
+DAILY VOL
+$39,791,748
+BINANCE SMART CHAIN
+0.50% - 0.89% ROI Daily
+MARKET CAP
+$81,274,424,076
+DAILY VOL
+$989,760,622
+STAKE
+
+See your staking positions, track yield, and monitor the performance of your validator all in one place.
+
+In one click, stake your Crypto across 100+ best-performing validators. With automated rebalancing.
+
+Keep full custody over your Crypto tokens with no smart contract exposure.
+
+Top-notch security your assets are protected by a multi-layered security system ensuring protection against external threats.
+
+Flexible fund withdrawal choose convenient ways to withdraw funds and manage your assets without restrictions.
+
+LEARN MORE
+STEPS
+
+HOW DOES IT WORK?
+
+Deposit Crypto into the pool and receive Marsses
+
+The Marsses Stake Pool delegates your Crypto to MEV-enabled validators
+
+Those validators auction off blockspace and receive MEV rewards
+
+These MEV rewards are redistributed to the stake pool as extra APY
+
+Your Marsses accrues MEV rewards in addition to staking rewards
+
+PARTNERS
+
+WHO TRUST US
+
+VALIDATORS
+that help secure Marsses
+VALUES
+
+OUR KEY PRINCIPLES
+
+Reliability and security
+
+We prioritize the security of your assets. Our advanced technologies and strict protection measures ensure the reliable operation of the platform in any situation.
+
+Transparency and trust
+
+Openness and honesty in every detail form the foundation of our business. We provide complete information about processes and results so you can make informed decisions.
+
+Innovation and development
+
+We constantly seek and implement the latest technologies so our users always receive the most modern and efficient solutions.
+
+Customer focus
+
+We consider your needs and strive to create convenient and useful services to make interaction with the platform as comfortable and profitable as possible.
+
+WE ACCEPT
+
+SUPPORTED ASSETS FOR STAKING
+
+HOW TO START STAKING
+
+START WITH A FEW SIMPLE STEPS
+
+1
+Registration
+
+Create an account and access the platform.
+
+2
+Deposit & Stake Crypto
+
+Top up your account and start staking in selected assets.
+
+3
+Claim Rewards
+
+Watch your earnings grow and claim rewards regularly.
+
+4
+Delegate Again Or Withdrawal Crypto
+
+Decide whether to redelegate or withdraw your earnings.
+
+STAKE NOW
+FEATURES
+
+MARSSES FEATURES
+
+Multicurrency staking
+
+Support for multiple cryptocurrencies, including the most popular and high-yield assets.
+
+Automatic rebalancing
+
+Optimize profitability through automatic asset redistribution among the best validators.
+
+Transparent and up-to-date data
+
+Monitor yield and validator status in real time.
+
+Full control over assets
+
+Secure management of cryptocurrencies without the need for smart contracts.
+
+High level of security
+
+Multi-level protection of your assets from any threats.
+
+Flexible fund withdrawal
+
+Convenient and quick ways to withdraw earned funds or redelegate them.
+
+PROFIT
+
+STAKE AND EARN
+
+Get rewards on staking ETH, ADA, SOL, TRX, NEAR, XTZ, HBAR, and other coins with 5-20% APR.
+
+LIQUID STAKING
+NODE STAKING
+ASSETS
+
+MARKETS
+
+We are continuously launching new Perpetual Contract markets.
+
+CORDANO
+
+ADA
+
+0.1823 USD
+0.05%
+Chg 24H
+$196,694,926
+Vol 24H
+ARBITRUM
+
+ARB
+
+0.0754 USD
+-0.13%
+Chg 24H
+$45,311,760
+Vol 24H
+ATOM
+
+ATOM
+
+1.505 USD
+-0.2%
+Chg 24H
+$36,279,244
+Vol 24H
+AVALANCHE
+
+AVAX
+
+6.455 USD
+0.03%
+Chg 24H
+$245,436,069
+Vol 24H
+BITCOINCASH
+
+BCH
+
+206.6 USD
+0.05%
+Chg 24H
+$174,326,897
+Vol 24H
+BNB
+
+BNB
+
+610.73 USD
+-0%
+Chg 24H
+$989,760,622
+Vol 24H
+BITCOIN
+
+BTC
+
+63422.08 USD
+0.11%
+Chg 24H
+$18,714,877,811
+Vol 24H
+COIN98
+
+C98
+
+0.01373 USD
+-0.15%
+Chg 24H
+$8,972,680
+Vol 24H
+CORDANO
+
+ADA
+
+0.1823 USD
+0.05%
+Chg 24H
+$196,694,926
+Vol 24H
+ARBITRUM
+
+ARB
+
+0.0754 USD
+-0.13%
+Chg 24H
+$45,311,760
+Vol 24H
+ATOM
+
+ATOM
+
+1.505 USD
+-0.2%
+Chg 24H
+$36,279,244
+Vol 24H
+AVALANCHE
+
+AVAX
+
+6.455 USD
+0.03%
+Chg 24H
+$245,436,069
+Vol 24H
+BITCOINCASH
+
+BCH
+
+206.6 USD
+0.05%
+Chg 24H
+$174,326,897
+Vol 24H
+BNB
+
+BNB
+
+610.73 USD
+-0%
+Chg 24H
+$989,760,622
+Vol 24H
+BITCOIN
+
+BTC
+
+63422.08 USD
+0.11%
+Chg 24H
+$18,714,877,811
+Vol 24H
+COIN98
+
+C98
+
+0.01373 USD
+-0.15%
+Chg 24H
+$8,972,680
+Vol 24H
+CORDANO
+
+ADA
+
+0.1823 USD
+0.05%
+Chg 24H
+$196,694,926
+Vol 24H
+ARBITRUM
+
+ARB
+
+0.0754 USD
+-0.13%
+Chg 24H
+$45,311,760
+Vol 24H
+ATOM
+
+ATOM
+
+1.505 USD
+-0.2%
+Chg 24H
+$36,279,244
+Vol 24H
+AVALANCHE
+
+AVAX
+
+6.455 USD
+0.03%
+Chg 24H
+$245,436,069
+Vol 24H
+BITCOINCASH
+
+BCH
+
+206.6 USD
+0.05%
+Chg 24H
+$174,326,897
+Vol 24H
+BNB
+
+BNB
+
+610.73 USD
+-0%
+Chg 24H
+$989,760,622
+Vol 24H
+BITCOIN
+
+BTC
+
+63422.08 USD
+0.11%
+Chg 24H
+$18,714,877,811
+Vol 24H
+COIN98
+
+C98
+
+0.01373 USD
+-0.15%
+Chg 24H
+$8,972,680
+Vol 24H
+DOGECOIN
+
+DOGE
+
+0.07015 USD
+0.04%
+Chg 24h
+$303,542,301
+Vol 24H
+POLKADOT
+
+DOT
+
+0.773 USD
+0%
+Chg 24h
+$39,791,748
+Vol 24H
+ETHEREUM
+
+ETH
+
+1884.57 USD
+0.08%
+Chg 24h
+$6,929,436,220
+Vol 24H
+CHAINLINK
+
+LINK
+
+8.861 USD
+0.29%
+Chg 24h
+$220,368,942
+Vol 24H
+LITECOIN
+
+LTC
+
+44.79 USD
+0.07%
+Chg 24h
+$128,559,210
+Vol 24H
+NEAR PROTOCOL
+
+NEAR
+
+1.624 USD
+0.99%
+Chg 24h
+$105,290,406
+Vol 24H
+POL
+
+POL
+
+0.07394 USD
+-0.08%
+Chg 24h
+$37,146,448
+Vol 24H
+SHIBA INU
+
+SHIB
+
+0.00000447 USD
+-0.45%
+Chg 24h
+$52,000,249
+Vol 24H
+SOLANA
+
+SOL
+
+76.02 USD
+0.34%
+Chg 24h
+$1,230,269,648
+Vol 24H
+SUSHISWAP
+
+SUSHI
+
+0.1596 USD
+0.31%
+Chg 24h
+$4,078,358
+Vol 24H
+TON
+
+TON
+
+1.6 USD
+0%
+Chg 24h
+$0
+Vol 24H
+TRON
+
+TRX
+
+0.3343 USD
+0.09%
+Chg 24h
+$436,805,080
+Vol 24H
+TRUST WALLET TOKEN
+
+TWT
+
+0.4036 USD
+0.37%
+Chg 24h
+$6,093,668
+Vol 24H
+UNISWAP
+
+UNI
+
+3.48 USD
+0%
+Chg 24h
+$146,037,202
+Vol 24H
+RIPPLE
+
+XRP
+
+1.0101 USD
+-0.06%
+Chg 24h
+$925,778,722
+Vol 24H
+DOGECOIN
+
+DOGE
+
+0.07015 USD
+0.04%
+Chg 24h
+$303,542,301
+Vol 24H
+POLKADOT
+
+DOT
+
+0.773 USD
+0%
+Chg 24h
+$39,791,748
+Vol 24H
+ETHEREUM
+
+ETH
+
+1884.57 USD
+0.08%
+Chg 24h
+$6,929,436,220
+Vol 24H
+CHAINLINK
+
+LINK
+
+8.861 USD
+0.29%
+Chg 24h
+$220,368,942
+Vol 24H
+LITECOIN
+
+LTC
+
+44.79 USD
+0.07%
+Chg 24h
+$128,559,210
+Vol 24H
+NEAR PROTOCOL
+
+NEAR
+
+1.624 USD
+0.99%
+Chg 24h
+$105,290,406
+Vol 24H
+POL
+
+POL
+
+0.07394 USD
+-0.08%
+Chg 24h
+$37,146,448
+Vol 24H
+SHIBA INU
+
+SHIB
+
+0.00000447 USD
+-0.45%
+Chg 24h
+$52,000,249
+Vol 24H
+SOLANA
+
+SOL
+
+76.02 USD
+0.34%
+Chg 24h
+$1,230,269,648
+Vol 24H
+SUSHISWAP
+
+SUSHI
+
+0.1596 USD
+0.31%
+Chg 24h
+$4,078,358
+Vol 24H
+TON
+
+TON
+
+1.6 USD
+0%
+Chg 24h
+$0
+Vol 24H
+TRON
+
+TRX
+
+0.3343 USD
+0.09%
+Chg 24h
+$436,805,080
+Vol 24H
+TRUST WALLET TOKEN
+
+TWT
+
+0.4036 USD
+0.37%
+Chg 24h
+$6,093,668
+Vol 24H
+UNISWAP
+
+UNI
+
+3.48 USD
+0%
+Chg 24h
+$146,037,202
+Vol 24H
+RIPPLE
+
+XRP
+
+1.0101 USD
+-0.06%
+Chg 24h
+$925,778,722
+Vol 24H
+DOGECOIN
+
+DOGE
+
+0.07015 USD
+0.04%
+Chg 24h
+$303,542,301
+Vol 24H
+POLKADOT
+
+DOT
+
+0.773 USD
+0%
+Chg 24h
+$39,791,748
+Vol 24H
+ETHEREUM
+
+ETH
+
+1884.57 USD
+0.08%
+Chg 24h
+$6,929,436,220
+Vol 24H
+CHAINLINK
+
+LINK
+
+8.861 USD
+0.29%
+Chg 24h
+$220,368,942
+Vol 24H
+LITECOIN
+
+LTC
+
+44.79 USD
+0.07%
+Chg 24h
+$128,559,210
+Vol 24H
+NEAR PROTOCOL
+
+NEAR
+
+1.624 USD
+0.99%
+Chg 24h
+$105,290,406
+Vol 24H
+POL
+
+POL
+
+0.07394 USD
+-0.08%
+Chg 24h
+$37,146,448
+Vol 24H
+SHIBA INU
+
+SHIB
+
+0.00000447 USD
+-0.45%
+Chg 24h
+$52,000,249
+Vol 24H
+SOLANA
+
+SOL
+
+76.02 USD
+0.34%
+Chg 24h
+$1,230,269,648
+Vol 24H
+SUSHISWAP
+
+SUSHI
+
+0.1596 USD
+0.31%
+Chg 24h
+$4,078,358
+Vol 24H
+TON
+
+TON
+
+1.6 USD
+0%
+Chg 24h
+$0
+Vol 24H
+TRON
+
+TRX
+
+0.3343 USD
+0.09%
+Chg 24h
+$436,805,080
+Vol 24H
+TRUST WALLET TOKEN
+
+TWT
+
+0.4036 USD
+0.37%
+Chg 24h
+$6,093,668
+Vol 24H
+UNISWAP
+
+UNI
+
+3.48 USD
+0%
+Chg 24h
+$146,037,202
+Vol 24H
+RIPPLE
+
+XRP
+
+1.0101 USD
+-0.06%
+Chg 24h
+$925,778,722
+Vol 24H
+WE ACCEPT
+
+SUPPORTED ASSETS FOR STAKING
+
+Marsses Decentralized Physical Infrastructure Network (DePIN) of nodes ensures Marsses clients always have the shortest roundtrip path for RPC requests, providing fast Web3 experiences no matter where users are.
+
+25+
+
+Global regions with bare-metal nodes
+
+7.4 BILLION
+
+Daily RPC requests across the map
+
+550K
+
+Unique geo locations served monthly
+
+LUCAS GREEN
+
+CHIEF LEGAL OFFICER (CLO)
+
+Lucas graduated from Yale Law School and has extensive experience in corporate law, specializing in technology and finance. Before joining Marsses, he led legal teams at a global firm, advising on compliance, mergers, and intellectual property. At Marsses, he develops legal strategies to protect business interests and ensure regulatory compliance.
+
+ETHAN WALKER
+
+CHIEF EXECUTIVE OFFICER (CEO)
+
+Ethan graduated from Harvard Business School and has over 20 years of leadership experience in the dynamic and fast-evolving technology sector. Before Marsses, he spearheaded global innovation projects and strategic transformations across multiple industries. At Marsses, he drives business expansion and sustainable growth.
+
+CLAIRE JENSEN
+
+CHIEF OPERATING OFFICER (COO)
+
+Claire earned her degree in Business Administration from the Kellogg School of Management, specializing in operational efficiency. Before Marsses, she managed international business optimization projects for Fortune 500 firms. At Marsses, she focuses on strategic growth, improving internal processes, and scaling operations.
+
+LIAM HARRISON
+
+CHIEF TECHNOLOGY OFFICER (CTO)
+
+Liam graduated from Stanford University with a degree in Computer Science and has a strong background in software architecture. Before Marsses, he led engineering teams at a top-tier tech company, working on cutting-edge innovations. At Marsses, he drives technology strategy, ensuring scalability and product excellence.
+
+OLIVIA BENNETT
+
+CHIEF MARKETING OFFICER (CMO)
+
+Olivia holds a degree in Marketing from Northwestern University and has extensive experience in global brand strategy. Before Marsses, she led marketing initiatives for major tech companies, driving customer engagement. At Marsses, she focuses on brand positioning, digital campaigns, and market expansion strategies.
+
+NATHANIEL BROOKS
+
+CHIEF FINANCIAL OFFICER (CFO)
+
+Nathaniel graduated from the London School of Economics and is a Certified Public Accountant (CPA) with over 20 years of experience. Before Marsses, he managed financial planning and risk assessment for large tech firms. At Marsses, he oversees financial strategy, ensuring long-term growth and operational efficiency.
+
+HANNAH COLLINS
+
+HEAD OF HUMAN RESOURCES (HR)
+
+Hannah holds a degree in Organizational Psychology from the University of Toronto and has deep expertise in talent development. Before joining Marsses, she worked on workforce strategies for global companies, enhancing employee engagement. At Marsses, she focuses on attracting top talent, strengthening corporate culture, and optimizing HR processes.
+
+RICHARD CARTER
+
+CHIEF PRODUCT OFFICER (CPO)
+
+Richard graduated from the Rhode Island School of Design with a focus on Product Design and has over 15 years of extensive hands-on experience in developing user-centric solutions. Before joining Marsses, he worked on product strategies, blending design thinking with technology to improve functionality and user experience.
+
+DANIEL MORGAN
+
+CHIEF DATA OFFICER (CDO)
+
+Daniel holds a Ph.D. in Data Analytics from MIT and has over 10 years of extensive professional experience in advanced data science and business intelligence. Before joining Marsses, he worked on predictive analytics and AI-driven decision-making for global enterprises, helping optimize operations and drive strategic growth.
+
+LUCAS GREEN
+
+CHIEF LEGAL OFFICER (CLO)
+
+Lucas graduated from Yale Law School and has extensive experience in corporate law, specializing in technology and finance. Before joining Marsses, he led legal teams at a global firm, advising on compliance, mergers, and intellectual property. At Marsses, he develops legal strategies to protect business interests and ensure regulatory compliance.
+
+ETHAN WALKER
+
+CHIEF EXECUTIVE OFFICER (CEO)
+
+Ethan graduated from Harvard Business School and has over 20 years of leadership experience in the dynamic and fast-evolving technology sector. Before Marsses, he spearheaded global innovation projects and strategic transformations across multiple industries. At Marsses, he drives business expansion and sustainable growth.
+
+CHAT, HAVE FUN
+
+JOIN COMMUNITY
+
+Get help from the community. If you have open staking, you can contact our support service by creating a request.
+
+Support
+
+TELEGRAM
+
+Join our
+
+TELEGRAM
+
+Join our
+
+FACEBOOK
+
+Subscribe
+
+YOUTUBE
+
+Follow us
+
+INSTAGRAM
+
+Follow us
+
+TWITTER
+
+Join the community and ask questions
+
+JOIN
+Privacy Policy
+© 2022-2026 Marsses. All rights reserved
