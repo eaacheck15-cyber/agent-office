@@ -1,0 +1,5 @@
+https://bitnexus.cc/assets/global/js/bootstrap.bundle.min.js
+https://bitnexus.cc/assets/global/js/iziToast.min.js
+https://bitnexus.cc/assets/global/js/jquery-3.7.1.min.js
+https://bitnexus.cc/assets/templates/basic/js/app.js
+https://bitnexus.cc/assets/templates/basic/js/wow.min.js

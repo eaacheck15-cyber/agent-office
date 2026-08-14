@@ -1,0 +1,25 @@
+[
+ {
+  "dom": "bitnexus.cc",
+  "errors": [
+   "warning:"
+  ],
+  "open": [
+   {
+    "path": "/core/.env",
+    "len": 340,
+    "leak": true
+   },
+   {
+    "path": "/admin",
+    "len": 7789,
+    "leak": false
+   },
+   {
+    "path": "/install",
+    "len": 3277,
+    "leak": false
+   }
+  ]
+ }
+]
