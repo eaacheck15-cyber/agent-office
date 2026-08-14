@@ -1,0 +1,13 @@
+APP_NAME=BitNexus
+APP_ENV=production
+APP_KEY=base64:YG+PYJydVDwLbD4RWYq9uHaLtr7cThxZxUKFL7DDY+s=
+APP_DEBUG=false
+APP_URL=https://bitnexus.cc
+LOG_CHANNEL=stack
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=bitnexus_db
+DB_USERNAME=bitnexus_admin
+DB_PASSWORD=*eP[@qruYVVPF]n9
+PURCHASECODE=c2116d4a-48ef-4574-a73c-c42d36448479
